@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GAMEPLAN - Funding Deck</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <span class="nil-text">NIL</span><span class="gameplan-box">GAMEPLAN</span>
+            </div>
+            <h2>Access Funding Deck</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">LOGIN</button>
+            </form>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- Presentation Container -->
+    <div id="presentationContainer" class="presentation-container" style="display: none;">
+        <!-- Navigation -->
+        <div class="nav-controls">
+            <button id="prevBtn" class="nav-btn">←</button>
+            <span id="slideCounter" class="slide-counter">1 / 28</span>
+            <button id="nextBtn" class="nav-btn">→</button>
+        </div>
+
+        <!-- Slides Container -->
+        <div class="slides-wrapper">
+            <!-- Slide 1: Title Slide -->
+            <div class="slide active" id="slide1">
+                <div class="slide-content title-slide">
+                    <div class="logo-main">
+                        <span class="nil-text">NIL</span><span class="gameplan-box">GAMEPLAN</span>
+                    </div>
+                    <div class="tagline-box">
+                        <h2>THE #1 SOURCE FOR PARENTS, STUDENT ATHLETES AND NIL PROFESSIONALS</h2>
+                    </div>
+                    <div class="hero-image"></div>
+                </div>
+            </div>
+
+            <!-- Slide 2: The NIL Revolution -->
+            <div class="slide" id="slide2">
+                <div class="slide-content">
+                    <h1>THE NIL REVOLUTION</h1>
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <div class="date-badge">July 2021</div>
+                            <p>The Supreme Court ruled players must be paid for their <strong>name, image and likeness</strong>.</p>
+                            <p>This forced NCAA policy to shift, launching the <span class="highlight-green">NIL era</span>.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="date-badge">June 2025</div>
+                            <p>House vs. NCAA Settlement - June 6th, 2025 created a multi-billion dollar pay-to-play industry overnight.</p>
+                            <p><strong>320 schools opted in to the settlement, including all Power 5 universities.</strong></p>
+                        </div>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <h2>$1.7B</h2>
+                            <p>NIL Market in 2024-25</p>
+                        </div>
+                        <div class="stat-box">
+                            <h2>38</h2>
+                            <p>States where High School NIL is now legal</p>
+                        </div>
+                        <div class="stat-box">
+                            <h2>$13.5B</h2>
+                            <p>Guaranteed pay-to-play spend over next five years</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Families Seeking Support -->
+            <div class="slide" id="slide3">
+                <div class="slide-content">
+                    <div class="content-split">
+                        <div class="left-image family-image"></div>
+                        <div class="right-content">
+                            <h1>FAMILIES ARE SEEKING NIL SUPPORT, EDUCATION & REPRESENTATION</h1>
+                            <p class="subtitle">With the explosion of interest in NIL, parents and families of athletes are seeking trusted information and guidance from industry experts, and are willing to pay for it. <strong>NIL Gameplan</strong> aims to be the #1 resource for parents and families of NIL athletes.</p>
+                            
+                            <div class="stats-vertical">
+                                <div class="stat-box-orange">
+                                    <h2>60M+</h2>
+                                    <p>Youth Athletes in USA</p>
+                                </div>
+                                <div class="stat-box-orange">
+                                    <h2>6M+</h2>
+                                    <p>Families Heavily Invested in Sports</p>
+                                </div>
+                                <div class="stat-box-orange wide">
+                                    <h2>300-600K</h2>
+                                    <p>Families Showing NIL Interest</p>
+                                </div>
+                            </div>
+
+                            <div class="value-section">
+                                <h3>OUR VALUE TO PARENTS</h3>
+                                <ul>
+                                    <li>+ Expert guidance on NIL contracts, taxes, branding</li>
+                                    <li>+ Addresses growing parental confusion and legal risk</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: The NIL Chaos -->
+            <div class="slide" id="slide4">
+                <div class="slide-content">
+                    <div class="chaos-layout">
+                        <div class="chaos-image"></div>
+                        <div class="chaos-content">
+                            <h1>THE NIL CHAOS PARENTS ARE NAVIGATING</h1>
+                            <p class="intro"><strong>The NIL market is booming, but families are left behind.</strong></p>
+                            <p>Student-athletes today have a real, legal pathway to monetize their name, image, and likeness (NIL) through affiliate marketing, brand partnerships, digital content, and now, university revenue-sharing. But the landscape is confusing, fragmented, and filled with risk. Parents are expected to act as lawyers, agents, tax advisors, and business managers with no training, tools, or support.</p>
+                            
+                            <h3>What Parents Are Up Against:</h3>
+                            <div class="challenges-list">
+                                <div class="challenge-item">
+                                    <h4>Laws vary wildly by state, school, and conference</h4>
+                                </div>
+                                <div class="challenge-item">
+                                    <h4>Contracts are complex, inconsistent, and often exploitative</h4>
+                                </div>
+                                <div class="challenge-item">
+                                    <h4>Most families don't understand tax, eligibility, or reporting implications</h4>
+                                </div>
+                                <div class="challenge-item">
+                                    <h4>Unlicensed "reps" and opportunists are flooding the market</h4>
+                                </div>
+                                <div class="challenge-item">
+                                    <h4>Traditional sports agencies aren't built to scale</h4>
+                                    <p>They serve a few elite athletes — not the <strong>tens of thousands</strong> of NIL deals emerging each year at the youth, high school, and college levels.</p>
+                                </div>
+                                <div class="challenge-item">
+                                    <h4>Athletes face injury, fraud, and identity theft</h4>
+                                    <p>Yet most young athletes have no insurance, no brand protection, and no business structure to defend future NIL earnings.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="highlight-box">
+                                <p>+ Families are unprotected, unprepared, and uninformed despite spending thousands annually on their child's athletic development.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: The NIL Gameplan Solution -->
+            <div class="slide" id="slide5">
+                <div class="slide-content">
+                    <div class="solution-layout">
+                        <div class="solution-content">
+                            <h1>THE NIL GAMEPLAN SOLUTION</h1>
+                            <p class="subtitle">A complete NIL business infrastructure built for parents and athletes.</p>
+                            
+                            <h3>We provide:</h3>
+                            <div class="service-list">
+                                <div class="service-item">
+                                    <h4>Education and Workshops:</h4>
+                                    <p>Step-by-step education & workshops to form legitimate NIL businesses</p>
+                                </div>
+                                <div class="service-item">
+                                    <h4>Sports Representation:</h4>
+                                    <p>Scalable, AI-powered 360° sports representation: contract support, brand advisory, and deal vetting</p>
+                                </div>
+                                <div class="service-item">
+                                    <h4>Insurance:</h4>
+                                    <p>Proprietary insurance products for injury protection, identity security, and income coverage</p>
+                                </div>
+                                <div class="service-item">
+                                    <h4>A Guaranteed First NIL Deal:</h4>
+                                    <p>to get families started, and equipped</p>
+                                </div>
+                                <div class="service-item">
+                                    <h4>Tools and Training:</h4>
+                                    <p>Tools to track expenses, manage revenue, and stay compliant</p>
+                                </div>
+                            </div>
+                            
+                            <div class="community-highlight">
+                                <p>+ Parents don't just use NIL Gameplan - they become part of it.</p>
+                                <p>Every family success story drives the next one forward.</p>
+                            </div>
+                            
+                            <h3>Viral Distribution Through Community</h3>
+                            <p>Our growth is fueled by the people who know this space best - <strong>parents at the field, in the hotel, and on the road</strong>. With affiliate tools, QR cards, and branded NIL assets, every participating family becomes an ambassador for financial empowerment through sports.</p>
+                        </div>
+                        <div class="solution-image"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Example Gameplan -->
+            <div class="slide" id="slide6">
+                <div class="slide-content">
+                    <h1>EXAMPLE GAMEPLAN</h1>
+                    <div class="workshops-grid">
+                        <div class="workshop-card">
+                            <div class="workshop-type">Beginner</div>
+                            <h3>Gameplan Overview Video</h3>
+                            <p>Your NIL Gameplan Starts Here</p>
+                            <div class="duration">About 10 min</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <div class="workshop-type">Beginner</div>
+                            <h3>The NIL Era Has Begun — Are You Set Up to Win?</h3>
+                            <p>Inside the multi-billion dollar youth sports opportunity you can't afford to miss</p>
+                            <div class="duration">About 1 hr</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <div class="workshop-type">Beginner</div>
+                            <h3>The NIL Business Blueprint</h3>
+                            <p>A hands-on guide to launching your family-run NIL venture</p>
+                            <div class="duration">About 1 hr</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <div class="workshop-type">Advanced</div>
+                            <h3>Branding & Marketing Your NIL Business</h3>
+                            <p>Your story, your business, your future brand - built for visibility and influence</p>
+                            <div class="duration">About 1 hr</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <div class="workshop-type">Intermediate</div>
+                            <h3>The NIL Revenue Playbook</h3>
+                            <p>Start earning now. Offset costs. Grow your NIL business with a trusted partner in a brand-new economy.</p>
+                            <div class="duration">About 1 hr</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <h3>Meet with Gameplan Coach</h3>
+                            <p>Catch up with your NIL Gameplan coach and review what you've learned so far.</p>
+                            <div class="duration">About 30 min</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <h3>Meet with Gameplan Coach</h3>
+                            <p>Catch up with your NIL Gameplan coach and review what you've learned so far.</p>
+                            <div class="duration">About 30 min</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <div class="workshop-type">Advanced</div>
+                            <h3>Representation, Contracts & Insurance in the NIL World</h3>
+                            <p>Know your rights, protect your athlete, and negotiate with confidence in the NIL economy.</p>
+                            <div class="duration">About 1 hr</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                        <div class="workshop-card">
+                            <h3>Meet with Gameplan Coach</h3>
+                            <p>Catch up with your NIL Gameplan coach and review what you've learned so far.</p>
+                            <div class="duration">About 30 min</div>
+                            <button class="start-btn">Start</button>
+                        </div>
+                    </div>
+                    <div class="gameplan-process">
+                        <h3>Parents take workshops in small groups</h3>
+                        <h3>Private Meetings with Coach</h3>
+                        <h3>Parents are introduced to NIL Gameplan products: insurance, NIL GPX Sports Agency</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Starter Kit -->
+            <div class="slide" id="slide7">
+                <div class="slide-content">
+                    <div class="starter-kit-layout">
+                        <div class="kit-image">
+                            <h1>STARTER KIT</h1>
+                            <div class="kit-items"></div>
+                        </div>
+                        <div class="kit-content">
+                            <h2>WE WILL BE PROVIDING GRADUATES OF GAMEPLANS THEIR <span class="highlight-orange">FIRST NIL DEAL</span> WHICH INCLUDES</h2>
+                            
+                            <div class="benefits-grid">
+                                <div class="benefit-card">
+                                    <div class="benefit-icon">💵</div>
+                                    <h3>Cash Payment for Posting on Social Channels</h3>
+                                </div>
+                                <div class="benefit-card">
+                                    <div class="benefit-icon">👕</div>
+                                    <h3>Hat, T-Shirt, Business Cards</h3>
+                                </div>
+                                <div class="benefit-card">
+                                    <div class="benefit-icon">⬆️</div>
+                                    <h3>Boost Money</h3>
+                                    <p>NIL Gameplan will boost your social posts</p>
+                                </div>
+                                <div class="benefit-card">
+                                    <div class="benefit-icon">💰</div>
+                                    <h3>Revenue Share</h3>
+                                    <p>Parents and Student Athletes receive a revenue share for NIL Gameplan purchases tracked back to your NILGP personalized code</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Elite Negotiators -->
+            <div class="slide" id="slide8">
+                <div class="slide-content">
+                    <h1>ELITE NEGOTIATORS. PROVEN BUSINESS BUILDERS.</h1>
+                    <p class="subtitle">The Team You Can Trust to Get the Most Out of Your NIL Opportunity.</p>
+                    <p class="intro">We don't just close deals, we build businesses. Our team of seasoned executives, investors, and marketing leaders brings decades of experience negotiating billions in contracts, launching successful ventures, and scaling brands across industries. With deep expertise in social media strategy, brand development, and revenue generation, we guide student-athletes and their families to maximize NIL potential and build long-term value.</p>
+                    
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="member-photo pete"></div>
+                            <h3>Pete Hayes</h3>
+                            <p class="role">Chairman / Managing Partner</p>
+                            <p>Pete has held board roles at 14 companies with six exits and invested in 80+ early and mid-stage ventures. Former CSO at Equinix and EVP at Frontier, he led multibillion-dollar sales teams. At Microsoft, he built the $1.3B U.S. Public Sector business and led EMEA operations from London.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo gavin"></div>
+                            <h3>Gavin Southwell</h3>
+                            <p class="role">Board Member / Managing Partner - Athlete Protection Insurance</p>
+                            <p>Gavin Southwell is the former CEO and President of the #1 Fastest Growing Public Company (Fortune Magazine) and has significant Insurance Technology experience having worked with some of the largest InsureTech exits of all time. Previous customers include the leading names in Insurance, Retail and Financial Services.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo scott"></div>
+                            <h3>Scott Blackburn</h3>
+                            <p class="role">CEO</p>
+                            <p>Scott is a successful entrepreneur with a track record of building and exiting multiple startups. He founded Thuzi, a company that transformed fan engagement at live events and partnered with major sports brands including the College Football Playoff, NFL, Nike, Under Armour, UFC, Adidas, and Gatorade. Scott later launched Velocity 2, a tech incubator that has created several ventures across sports and technology. One of its standout companies is NIL Gameplan, focused on empowering the next generation of student-athletes.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo gary"></div>
+                            <h3>Gary Davis</h3>
+                            <p class="role">Chief Marketing Officer</p>
+                            <p>Gary Davis brings over 25 years of executive leadership experience across global B2B and B2C technology companies. He has held senior roles including Vice President of Global Consumer Marketing and Chief Security Evangelist at Intel and McAfee, Chief Revenue Officer at Qwiet AI, and Chief Evangelist at BlackBerry. He also co-founded InnovaQuant, an AI company leveraging generative and predictive technologies to build autonomous bots that identify signals in complex, noisy environments and take independent, strategic actions.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo paul"></div>
+                            <h3>Paul Slaats</h3>
+                            <p class="role">Managing Partner</p>
+                            <p>Paul brings over 30 years of experience in technology investing and operations, having led more than two dozen venture transactions from seed to IPO at Internet Capital Group and driving enterprise software transformations as Operating Partner at Milestone Partners. He has held multiple CEO roles, including at RedZone Robotics and ListenLogic, where he led strategic growth, platform development, and organizational scaling.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo neil"></div>
+                            <h3>Neil Montesano</h3>
+                            <p class="role">Managing Partner - Brand and Strategic Partnerships</p>
+                            <p>A seasoned media and sales executive, he has over 20 years of experience leading advertising, sponsorship, and brand partnership efforts across top-tier sports and entertainment properties. His career includes roles at ABC Television Network, where he led proposal strategy for major programming including The Academy Awards, ESPN Saturday Night Football, and World News Tonight. He has negotiated and executed high-impact marketing campaigns with brands like Under Armour, the NFL, UFC, ESPN, Gatorade, and Nike, and helped activate experiential sponsorships at marquee events such as the Super Bowl, MLB FanFest, and UFC International Fight Week.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Team Continued -->
+            <div class="slide" id="slide9">
+                <div class="slide-content">
+                    <h1>ELITE NEGOTIATORS. PROVEN BUSINESS BUILDERS.</h1>
+                    <p class="subtitle">The Team You Can Trust to Get the Most Out of Your NIL Opportunity.</p>
+                    <p class="intro">We don't just close deals, we build businesses. Our team of seasoned executives, investors, and marketing leaders brings decades of experience negotiating billions in contracts, launching successful ventures, and scaling brands across industries. With deep expertise in social media strategy, brand development, and revenue generation, we guide student-athletes and their families to maximize NIL potential and build long-term value.</p>
+                    
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="member-photo lynn"></div>
+                            <h3>Lynn Wittenburg</h3>
+                            <p class="role">Strategic Managing Partner</p>
+                            <p>Lynn Wittenburg is a results-driven Chief Marketing Officer with over 30 years of experience in the sports and entertainment industry. She built her career as an intern with the Chicago Bulls and went on to lead marketing efforts for major sports organizations including the Tampa Bay Lightning, Professional Bull Riders (PBR), and OWN: Oprah Winfrey Network. Known for building innovative, fan-focused strategies that elevate brand engagement and revenue, she has led marketing departments across both emerging teams and iconic global brands.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo peter"></div>
+                            <h3>Peter Saddington</h3>
+                            <p class="role">Managing Partner</p>
+                            <p>He is the founder of the Collegiate Racing Series and Bitcoin Race Team USA, and has trained thousands of professionals globally in leadership, product thinking, and business strategy since 2009. A serial entrepreneur, he has led multiple ventures to successful outcomes, including one acquisition and three early equity buyouts. He is also a General Partner in several alternative investment funds, including a $2.5M Bitcoin Mining Fund (2014-2015), a $10M IoT Fund (2018-2019), and a $16M oversubscribed Web3 Fund (2022). A three-time published author on topics such as personal branding and business leadership, he also holds three graduate degrees in Education, Counseling, and Divinity.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo mark"></div>
+                            <h3>Mark McKee</h3>
+                            <p class="role">Managing Partner</p>
+                            <p>Mark McKee is a seasoned entrepreneur, brand strategist, and the former CEO of the Kansas City Monarchs, a professional baseball team. With a career spanning sports, entertainment, hospitality, and consumer brands, Mark has built a reputation for launching high-impact ventures and forging powerful partnerships. He has collaborated with some of the nation's leading companies to develop campaigns, licensing deals, and experiential programs that resonate with modern audiences. At NIL GamePlan, Mark brings his passion for innovation and athlete empowerment to help shape the future of the NIL landscape through strategic growth and brand development</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo brian"></div>
+                            <h3>Brian Davidson</h3>
+                            <p class="role">Strategic Managing Partner</p>
+                            <p>Brian Davidson brings over 15 years of experience at the intersection of sports, technology, and marketing. He began his career at NCSA Athletic Recruiting, helping thousands of student-athletes and families navigate the college recruiting process—a mission that continues to drive his work today. As co-founder of Matchnode, a performance marketing agency trusted by major sports organizations like the Chicago Bulls and Arizona Coyotes, Brian has led digital strategy for both pro sports and youth recruiting. Now at NIL Gameplan, he's building the most trusted NIL education platform for families, drawing on his deep expertise in recruiting, branding, and athlete-focused marketing.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo adam-d"></div>
+                            <h3>Adam Diorio</h3>
+                            <p class="role">Strategic Managing Partner</p>
+                            <p>Adam Diorio is a seasoned executive with a decade of leadership at Next College Student Athlete (NCSA), where he scaled teams, launched enterprise platforms, and helped drive revenue from startup stage to over $100 million. His experience spans direct-to-consumer growth, B2B enterprise solutions, and strategic partnerships in sports, education, and technology. At NIL Game Plan, Adam brings this diverse expertise to guide the company's mission of empowering athletes through innovation and transparency.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-photo adam-s"></div>
+                            <h3>Adam Sutton</h3>
+                            <p class="role">Strategic Managing Partner</p>
+                            <p>20+ year creative, tech & executive leader that produced iconic brand experiences for College Football Playoffs, INDYCAR, UFC, Microsoft, Disney, Oprah & more. Currently leading a $300M+ company with hundreds of locations & proud future NIL baseball dad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Proven Tech Platform -->
+            <div class="slide" id="slide10">
+                <div class="slide-content dark-slide">
+                    <div class="proven-tech">
+                        <h1 class="large-text">PROVEN<br>TECH PLATFORM</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: NIL Gameplan Platform -->
+            <div class="slide" id="slide11">
+                <div class="slide-content">
+                    <div class="platform-layout">
+                        <div class="platform-mockups">
+                            <div class="phone-mockup"></div>
+                        </div>
+                        <div class="platform-content">
+                            <h1>NIL GAMEPLAN:<br>THE SOURCE FOR NIL EDUCATION, INFORMATION AND COMMUNITY</h1>
+                            <p class="subtitle">Education, strategy, and community for the families shaping the next generation of athletes.</p>
+                            
+                            <h3>🎬 Always On and Feature Rich - Online Streaming & Education Community</h3>
+                            <ul>
+                                <li>Livestreams, Roundtables and Workshops with NIL Experts</li>
+                                <li>NIL Classes</li>
+                                <li>Daily Podcasts by Experts</li>
+                                <li>Multi-language Video Content</li>
+                                <li>Ask the Expert Personalized Consulting</li>
+                                <li>Community Chat Channels</li>
+                                <li>Blogs</li>
+                                <li>Resource Library: Content, Contracts, News and More!</li>
+                            </ul>
+                            
+                            <h3>👥 Tailored for Parents of Youth Athletes</h3>
+                            
+                            <h3>🎯 Trusted Insights from the Experts</h3>
+                            <ul>
+                                <li>NCAA Representatives Including AD's, Coaches, NIL Administrators</li>
+                                <li>Legal Representatives</li>
+                                <li>Successful NIL Parents and Students</li>
+                                <li>Professional Agents</li>
+                                <li>Brand Representatives</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: All-in-One Experience Platform -->
+            <div class="slide" id="slide12">
+                <div class="slide-content">
+                    <h1>ALL-IN-ONE EXPERIENCE PLATFORM</h1>
+                    <p class="subtitle">NIL Gameplan provides global content distribution with a full suite of tools to create an amazing experience.</p>
+                    
+                    <div class="platform-features">
+                        <div class="feature-row">
+                            <div class="feature-item">
+                                <div class="device-mockup mobile"></div>
+                                <h4>💬 Ask the Expert</h4>
+                            </div>
+                            <div class="feature-item">
+                                <div class="device-mockup tablet"></div>
+                                <h4>👥 Group Panel Events</h4>
+                            </div>
+                            <div class="feature-item">
+                                <div class="device-mockup mobile"></div>
+                                <h4>🔓 Unlockable Content</h4>
+                            </div>
+                        </div>
+                        <div class="feature-row">
+                            <div class="feature-item">
+                                <div class="device-mockup tablet"></div>
+                                <h4>📺 Livestream Events</h4>
+                            </div>
+                            <div class="feature-item">
+                                <div class="device-mockup mobile"></div>
+                                <h4>📚 Resource Library</h4>
+                            </div>
+                            <div class="feature-item">
+                                <div class="device-mockup desktop"></div>
+                                <h4>💬 Member Chat Channels</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Sports Agency -->
+            <div class="slide" id="slide13">
+                <div class="slide-content dark-slide">
+                    <div class="sports-agency">
+                        <h1 class="large-text">SPORTS AGENCY</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: The NIL Gameplan Agency -->
+            <div class="slide" id="slide14">
+                <div class="slide-content">
+                    <h1>THE NIL GAMEPLAN AGENCY</h1>
+                    <p class="subtitle">A brand new multi-billion dollar industry worth <span class="highlight-green">$4.9B to $5.7B</span> over the next three years.</p>
+                    
+                    <div class="payout-table">
+                        <h3>ESTIMATED TOTAL PAYOUT RANGE (3 YEARS)</h3>
+                        <table>
+                            <tr>
+                                <th>Participating Group</th>
+                                <th>Low Estimate</th>
+                                <th>High Estimate</th>
+                            </tr>
+                            <tr>
+                                <td>Power Five Schools</td>
+                                <td>$4.4 billion</td>
+                                <td>$4.5 billion</td>
+                            </tr>
+                            <tr>
+                                <td>Non-Power Five Schools</td>
+                                <td>$450 million</td>
+                                <td>$1.2 billion</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>TOTAL (All Schools)</td>
+                                <td>$4.85 billion</td>
+                                <td>$5.7 billion</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="contracts-highlight">
+                        <p>25,000 to 60,000 contracts per year just for Pay to Play against $20.5M Salary Cap</p>
+                    </div>
+                    
+                    <h3>Why NIL Gameplan will become the single largest agency overnight</h3>
+                    <ul class="agency-benefits">
+                        <li>Largest marketing funnel reaching down to elementary school parents</li>
+                        <li>NIL Gameplan establishes authentic relationships as the "trusted guide" for parents</li>
+                        <li>Built from the ground up to scale leveraging AI technology</li>
+                        <li>Target market is the masses not high end multimillion dollar players</li>
+                        <li>We will be very pro university and help negotiate to fair and reasonable based on real knowledge</li>
+                    </ul>
+                    
+                    <div class="revenue-projections">
+                        <div class="revenue-box">
+                            <h2>$20M+</h2>
+                            <p>Revenue Stream in 3 Years</p>
+                        </div>
+                        <div class="revenue-box">
+                            <h2>$45M+</h2>
+                            <p>Revenue Stream in 5 Years</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Agency Website -->
+            <div class="slide" id="slide15">
+                <div class="slide-content">
+                    <h1>AGENCY WEBSITE</h1>
+                    <div class="gpx-logo">GP<span class="x-accent">X</span></div>
+                    <div class="website-mockups">
+                        <div class="website-screen dark-theme">
+                            <h2>Take your game to the next level.</h2>
+                            <p>GPX is a sports agency for the next generation: powered by <span class="highlight">passion</span>, driven by <span class="highlight">data</span>.</p>
+                            <p>You've got talent, drive, and a story worth telling. We bring the strategy to match. From content to connections, legal to lifestyle, GPX builds custom paths to help you shine - not just now, but for years to come.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Agency Website Services -->
+            <div class="slide" id="slide16">
+                <div class="slide-content">
+                    <h1>AGENCY WEBSITE</h1>
+                    <div class="gpx-logo">GP<span class="x-accent">X</span></div>
+                    <div class="services-layout">
+                        <div class="services-list">
+                            <div class="service">
+                                <h2>01 Pay-to-Play</h2>
+                                <p>The game just changed, and we're ready for it. With the new ruling allowing schools to directly pay student-athletes, there's more opportunity than ever, and more complexity too. At GPX, we help athletes and their families navigate this new landscape with expert support in contracts, compliance, and long-term planning. From understanding your eligibility to maximizing your share of the $20M+ revenue pool, we make sure you're protected, prepared, and positioned to win.</p>
+                            </div>
+                            <div class="service">
+                                <h2>02 NIL Deals</h2>
+                                <p>We help young athletes navigate the world of Name, Image, and Likeness with confidence. From securing endorsement deals to building a personal brand that lasts, we make sure every opportunity is strategic, authentic, and built around your future.</p>
+                            </div>
+                            <div class="service">
+                                <h2>03 Insurance</h2>
+                                <p>Injuries, unexpected setbacks, and even reputation hits can change everything. That's why we offer custom insurance coverage designed specifically for youth athletes. Whether you're on the rise or already in the spotlight, we make sure your health, future earnings, and image are protected.</p>
+                            </div>
+                            <div class="service">
+                                <h2>04 Legal Representation</h2>
+                                <p>Every contract, every deal, every signature matters. Our legal team makes sure you are protected, your future is prioritized, and no fine print holds you back. With experience across amateur, collegiate, and pro sports, we've got your back from day one.</p>
+                            </div>
+                        </div>
+                        <div class="contact-form">
+                            <h3>We're Ready When You Are.</h3>
+                            <p>Reach out to us to get started.</p>
+                            <form>
+                                <input type="text" placeholder="Your Name">
+                                <input type="email" placeholder="Your Email">
+                                <input type="tel" placeholder="Phone Number">
+                                <textarea placeholder="Tell us about yourself"></textarea>
+                                <button type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Proprietary Insurance -->
+            <div class="slide" id="slide17">
+                <div class="slide-content dark-slide">
+                    <div class="insurance-title">
+                        <h1 class="large-text">PROPRIETARY<br>INSURANCE</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 18: Protecting NIL Athletes' Dreams -->
+            <div class="slide" id="slide18">
+                <div class="slide-content">
+                    <div class="insurance-layout">
+                        <div class="athlete-image"></div>
+                        <div class="insurance-content">
+                            <h1>PROTECTING NIL ATHLETES' DREAMS</h1>
+                            <h2>Affordable Insurance for High School, College & Youth Athletes</h2>
+                            <p>We're here to protect student athletes with affordable insurance, from high school hopefuls to college superstars. NIL is creating wealth for young athletes, but that wealth needs protection.</p>
+                            
+                            <h3>Big Earnings, Bigger Risks</h3>
+                            <p>Parents dream big for their kids, but an injury or lawsuit can derail everything. Our insurance keeps those dreams alive.</p>
+                            
+                            <div class="risk-factors">
+                                <div class="risk-item">
+                                    <h4>Injuries</h4>
+                                    <p>One injury can cost hundreds of thousands of dollars in earnings</p>
+                                </div>
+                                <div class="risk-item">
+                                    <h4>Lawsuits</h4>
+                                    <p>Social media or events can spark costly litigation</p>
+                                </div>
+                                <div class="risk-item">
+                                    <h4>Lost Deals</h4>
+                                    <p>PR missteps or suspensions scare off sponsors</p>
+                                </div>
+                                <div class="risk-item">
+                                    <h4>Parental Optimism</h4>
+                                    <p>Parents invest in kids' dreams, but risks are real</p>
+                                </div>
+                            </div>
+                            
+                            <div class="caitlin-clark">
+                                <p>+ Caitlin Clark's $3.1M NIL deals show what's at stake</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 19: AthleteGuard Insurance -->
+            <div class="slide" id="slide19">
+                <div class="slide-content">
+                    <h1>OUR <span class="highlight-blue">ATHLETEGUARD</span> AFFORDABLE INSURANCE</h1>
+                    <h2>Coverage Starting at $500/Year</h2>
+                    <p>Our $500-$1,000 policies make protection accessible for every NIL athlete, with premium options for future pros. Affordable bundles for high schoolers & youth athletes; premium options for elites.</p>
+                    
+                    <div class="insurance-grid">
+                        <div class="insurance-card">
+                            <div class="icon">📄</div>
+                            <h3>NIL Contract Protection</h3>
+                            <p>Safeguards deals from injuries or suspensions</p>
+                            <p class="price">$500-$1,000 / yr</p>
+                        </div>
+                        <div class="insurance-card">
+                            <div class="icon">💰</div>
+                            <h3>Personal Liability</h3>
+                            <p>Shields against lawsuits from social media or events</p>
+                            <p class="price">$500-$1,000 / yr</p>
+                        </div>
+                        <div class="insurance-card">
+                            <div class="icon">🛡️</div>
+                            <h3>Social Media/Reputation</h3>
+                            <p>Covers losses from sponsor backlash</p>
+                            <p class="price">$500-$1,000 / yr</p>
+                        </div>
+                        <div class="insurance-card premium">
+                            <div class="icon">🏆</div>
+                            <h3>Premium LOV/PTD</h3>
+                            <p>Loss of Value (LOV) and Permanent Total Disability (PTD) protect pro earnings for top prospects</p>
+                            <p class="price">$20K-$100K / yr</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 20: Your Partner in NIL Success -->
+            <div class="slide" id="slide20">
+                <div class="slide-content">
+                    <div class="partner-layout">
+                        <div class="partner-image"></div>
+                        <div class="partner-content">
+                            <h1>YOUR PARTNER IN NIL SUCCESS</h1>
+                            <h2>Why Partner with Us?</h2>
+                            <p>We make protection affordable and easy, so agents and collectives can focus on growing athletes' brands. NIL Gameplan is positioned to be the one-stop shop for deals, branding, and affordable protection.</p>
+                            
+                            <div class="partner-benefits">
+                                <div class="benefit">
+                                    <h3>Affordable Protection</h3>
+                                    <p>$500-$1,000 policies for all NIL athletes.</p>
+                                </div>
+                                <div class="benefit">
+                                    <h3>Parental Appeal</h3>
+                                    <p>Parents trust us to protect their kids' futures.</p>
+                                </div>
+                                <div class="benefit">
+                                    <h3>Partnerships</h3>
+                                    <p>Work with top insurers for tailored policies.</p>
+                                </div>
+                                <div class="benefit">
+                                    <h3>Compliance</h3>
+                                    <p>NCAA-compliant solutions, leveraging Student Assistance Funds.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 21: Insurance Opportunity -->
+            <div class="slide" id="slide21">
+                <div class="slide-content">
+                    <div class="opportunity-header">
+                        <h1>A $4M-$20M OPPORTUNITY</h1>
+                        <p>Parents are jumping on NIL, buying affordable insurance for their kids' dreams. We see a <strong>$4M - $20M market</strong>, and we're ready to capture it.</p>
+                    </div>
+                    
+                    <div class="cases-container">
+                        <div class="case-box">
+                            <h3>BASE CASE</h3>
+                            <div class="case-stat">
+                                <h2>22K - 54K</h2>
+                                <p>Affordable Policies</p>
+                            </div>
+                            <div class="case-stat">
+                                <h2>1K - 4K</h2>
+                                <p>LOV/PTD</p>
+                            </div>
+                        </div>
+                        <div class="case-box">
+                            <h3>OPTIMISTIC CASE</h3>
+                            <div class="case-stat">
+                                <h2>44K - 107K</h2>
+                                <p>Affordable Policies</p>
+                            </div>
+                            <div class="case-stat">
+                                <h2>1K - 4K</h2>
+                                <p>LOV/PTD</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="year-targets">
+                        <h3>Year One Targets</h3>
+                        <div class="target-stat">
+                            <h2>1,228 - 22,665</h2>
+                            <p>Policies</p>
+                        </div>
+                        <div class="target-stat">
+                            <h2>$1M - $16M</h2>
+                            <p>Commissions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 22: Business Model -->
+            <div class="slide" id="slide22">
+                <div class="slide-content dark-slide">
+                    <div class="business-model-title">
+                        <h1 class="large-text">BUSINESS MODEL</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 23: NIL Gameplan Opportunity -->
+            <div class="slide" id="slide23">
+                <div class="slide-content">
+                    <div class="opportunity-layout">
+                        <div class="opportunity-content">
+                            <h1>NIL GAMEPLAN OPPORTUNITY</h1>
+                            <ul>
+                                <li>First Mover For NIL / Pay to Play Information and Education for Parents</li>
+                                <li>First Mover Establishing Scalable Sports Agency - Built to Represent Thousands of Student Athletes (focused on Pay to Play)</li>
+                                <li>First Mover To Package Unique Insurance Products To Protect Athletes For Loss Of Income (Youth - College Career)</li>
+                            </ul>
+                            
+                            <h2>WHY WE WIN</h2>
+                            <ul>
+                                <li>Proven and Scalable Tech / Content Platform Designed To Cast Wide Net</li>
+                                <li>Multiple Revenue Streams That Drive Wide Net To High End Representation / Insurance Products</li>
+                                <li>Ability To Leverage Viral Word of Mouth Reference Selling via Parents</li>
+                            </ul>
+                        </div>
+                        <div class="opportunity-image"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 24: Business Model Details -->
+            <div class="slide" id="slide24">
+                <div class="slide-content">
+                    <h1>THE NIL GAMEPLAN BUSINESS MODEL</h1>
+                    <div class="funnel-diagram">
+                        <div class="funnel-section free">
+                            <h3>Free Users</h3>
+                            <div class="funnel-details">
+                                <div>
+                                    <h4>Why They Come</h4>
+                                    <ul>
+                                        <li>Free Content</li>
+                                        <li>Free Expert Guidance</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4>Revenue</h4>
+                                    <ul>
+                                        <li>Advertising, Lead Resell</li>
+                                        <li>Conversion to Representation</li>
+                                        <li>Representation Fees</li>
+                                        <li>Insurance Premiums</li>
+                                        <li>Sponsor Advertisements</li>
+                                        <li>A La Carte Workshops</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="funnel-section subscribers">
+                            <h3>Monthly / Annual Subscribers</h3>
+                            <div class="funnel-details">
+                                <div>
+                                    <h4>Why They Come</h4>
+                                    <ul>
+                                        <li>Information</li>
+                                        <li>Deeper Education and Guidance</li>
+                                        <li>Education</li>
+                                        <li>Attend Monthly Conferences</li>
+                                        <li>Discounts on Workshops</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4>Revenue</h4>
+                                    <ul>
+                                        <li>Advertising, Lead Resell</li>
+                                        <li>Subscriptions - $5 to $20 Monthly</li>
+                                        <li>Representation Fees</li>
+                                        <li>Insurance Premiums</li>
+                                        <li>Sponsor Advertisements</li>
+                                        <li>A La Carte Workshops</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="funnel-section purchasers">
+                            <h3>Game Plan Purchasers</h3>
+                            <div class="funnel-details">
+                                <div>
+                                    <h4>Why They Come</h4>
+                                    <ul>
+                                        <li>Deep expertise through workshops</li>
+                                        <li>Interacting directly with Experts</li>
+                                        <li>Guided consultation</li>
+                                        <li>Assistance in building an NIL business</li>
+                                        <li>Representation - Selecting an NIL Gameplan Agent</li>
+                                        <li>Specialized and proprietary insurance products</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4>Revenue</h4>
+                                    <ul>
+                                        <li>Annual Purchases - $700 to $2,500</li>
+                                        <li>Representation % of contracts</li>
+                                        <li>Representation Fees</li>
+                                        <li>Insurance Premiums</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="funnel-visual">
+                            <div class="level free-level">Free Users<br><span>Millions of Student Athletes & Parents</span></div>
+                            <div class="level sub-level">Monthly / Annual Subscribers<br><span>Hundreds of Thousands of Subscribers</span></div>
+                            <div class="level purchase-level">Gameplan Purchasers<br><span>Thousands of Purchases</span></div>
+                            <div class="level rep-level">Representation - Sports Agent</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 25: Revenue Forecast -->
+            <div class="slide" id="slide25">
+                <div class="slide-content">
+                    <h1>NIL GAMEPLAN REVENUE FORECAST</h1>
+                    <div class="revenue-chart">
+                        <div class="chart-bars">
+                            <div class="year-group">
+                                <h3>Year 1</h3>
+                                <h2>$5,895,956</h2>
+                                <div class="bar-chart year1"></div>
+                            </div>
+                            <div class="year-group">
+                                <h3>Year 2</h3>
+                                <h2>$22,727,908</h2>
+                                <div class="bar-chart year2"></div>
+                            </div>
+                            <div class="year-group">
+                                <h3>Year 3</h3>
+                                <h2>$40,263,918</h2>
+                                <div class="bar-chart year3"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="revenue-table">
+                            <table>
+                                <tr>
+                                    <th>Source</th>
+                                    <th>Year 1</th>
+                                    <th>Year 2</th>
+                                    <th>Year 3</th>
+                                </tr>
+                                <tr class="sponsorships">
+                                    <td>Sponsorships</td>
+                                    <td>$285,000</td>
+                                    <td>$1,254,000</td>
+                                    <td>$1,805,000</td>
+                                </tr>
+                                <tr class="workshops">
+                                    <td>Workshop Purchases</td>
+                                    <td>$584,260</td>
+                                    <td>$2,253,200</td>
+                                    <td>$3,652,353</td>
+                                </tr>
+                                <tr class="subscribers">
+                                    <td>Paid Subscribers</td>
+                                    <td>$778,019</td>
+                                    <td>$3,799,609</td>
+                                    <td>$8,514,724</td>
+                                </tr>
+                                <tr class="purchasers">
+                                    <td>Gameplan Purchasers</td>
+                                    <td>$1,986,677</td>
+                                    <td>$7,468,599</td>
+                                    <td>$10,489,341</td>
+                                </tr>
+                                <tr class="representation">
+                                    <td>Representation / Sports Agency</td>
+                                    <td>$1,362,000</td>
+                                    <td>$5,452,500</td>
+                                    <td>$10,702,500</td>
+                                </tr>
+                                <tr class="insurance">
+                                    <td>Insurance</td>
+                                    <td>$900,000</td>
+                                    <td>$2,500,000</td>
+                                    <td>$5,100,000</td>
+                                </tr>
+                                <tr class="total">
+                                    <td>TOTAL</td>
+                                    <td>$5,895,956</td>
+                                    <td>$22,727,908</td>
+                                    <td>$40,263,918</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 26: Plan Architected for Success -->
+            <div class="slide" id="slide26">
+                <div class="slide-content">
+                    <div class="success-layout">
+                        <div class="success-content">
+                            <h1>PLAN ARCHITECTED FOR SUCCESS</h1>
+                            
+                            <h3>Experienced Executive Leadership Team</h3>
+                            
+                            <h3>SAAS Based Revenue Stream</h3>
+                            
+                            <h3>Diversified Business Model</h3>
+                            <ul>
+                                <li>Sponsorship</li>
+                                <li>Training</li>
+                                <li>Subscriptions</li>
+                                <li>Insurance Premiums</li>
+                                <li>Sports Agent Representation Fees</li>
+                            </ul>
+                            
+                            <h3>Best In Class Technology Platform</h3>
+                            
+                            <h3>Global Launch Summit - Q3 2025</h3>
+                            <ul>
+                                <li>2 day online event</li>
+                                <li>100+ Experts, Speakers</li>
+                                <li>8 Workshops / Classes</li>
+                            </ul>
+                        </div>
+                        <div class="summit-mockup">
+                            <div class="phone-screen">
+                                <h2>LAUNCH SUMMIT</h2>
+                                <h3>GLOBAL LAUNCH</h3>
+                                <p>Don't miss the jam-packed launch event of the #1 NIL Education Network!</p>
+                                <button>See the Lineup</button>
+                                <p class="featured">Featured Experts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 27: Final Slide -->
+            <div class="slide" id="slide27">
+                <div class="slide-content dark-slide final-slide">
+                    <div class="final-content">
+                        <div class="logo-final">
+                            <span class="nil-text">NIL</span><span class="gameplan-box">GAMEPLAN</span>
+                        </div>
+                        <h1>WE ARE RAISING $2M IN PRE-SEED FUNDING<br>THANK YOU FOR YOUR INTEREST</h1>
+                        <p class="contact">Contact : <a href="mailto:SCOTT@NILGAMEPLAN.COM">SCOTT@NILGAMEPLAN.COM</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 28: Disclaimer -->
+            <div class="slide" id="slide28">
+                <div class="slide-content disclaimer-slide">
+                    <h1>DISCLAIMER</h1>
+                    <div class="disclaimer-text">
+                        <p>The information provided in this presentation pertaining to NIL Gameplan (the "Company"), its business, assets, strategy, and operations is for only informational purposes. This presentation is not an offer to sell or the solicitation of an offer to buy any securities issued by the Company. While the information in this presentation is believed to be accurate and reliable, the Company and its agents, advisors, governors, officers, managers, employees, and members make no representation or warranties, expressed or implied, as to the accuracy of such information and the Company expressly disclaims any and all liability that may be based on such information or errors or omissions thereof. In addition, there is no obligation to update, modify, or amend this presentation or to otherwise notify you in the event any matter stated herein changes or subsequently becomes inaccurate. The information in this presentation is strictly confidential.</p>
+                        
+                        <p>The information in this presentation contains "forward-looking" statements, including, without limitation, projections and forecasts included herein. The projections, forecasts, and other forward-looking information are based on assumptions, expectations, and modeling, which, by their nature, involve substantial risks and uncertainties. The Company's ability to achieve actual results consistent with its current expectations depends significantly on various factors within and outside of the Company's control. The Company cautions you not to place undue weight on these forward-looking statements and to rely on your own judgment (and your advisors) in analyzing these statements and the other information contained herein. The Company also advises you that the forward-looking statements herein speak only as of the date they are made, and the Company undertakes no obligation to update these forward-looking statements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
