@@ -141,27 +141,28 @@ body {
 /* Navigation Controls */
 .nav-controls {
     position: fixed;
-    bottom: 30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 30px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 25px;
     border-radius: 50px;
     backdrop-filter: blur(10px);
     z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .nav-btn {
     background: var(--nil-green);
     border: none;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     color: #000000;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -206,7 +207,7 @@ body {
 .slide-content {
     width: 100%;
     min-height: 100%;
-    padding: 60px;
+    padding: 60px 60px 120px 60px; /* Added extra bottom padding for navigation */
     max-width: 1400px;
     margin: 0 auto;
 }

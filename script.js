@@ -86,11 +86,13 @@ function showSlide(n) {
 prevBtn.addEventListener('click', () => {
     currentSlide--;
     showSlide(currentSlide);
+    // playClickSound(); // Removed annoying click sound
 });
 
 nextBtn.addEventListener('click', () => {
     currentSlide++;
     showSlide(currentSlide);
+    // playClickSound(); // Removed annoying click sound
 });
 
 // Keyboard navigation
@@ -245,9 +247,9 @@ function playClickSound() {
 }
 
 // Add click sound to navigation buttons
-[prevBtn, nextBtn].forEach(btn => {
-    btn.addEventListener('click', playClickSound);
-});
+// [prevBtn, nextBtn].forEach(btn => {
+//     btn.addEventListener('click', playClickSound);
+// });
 
 // Presentation timer
 let presentationStartTime = Date.now();
