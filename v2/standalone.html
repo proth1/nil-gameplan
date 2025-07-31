@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GAMEPLAN | The Future of College Athletics</title>
+    <meta name="description" content="The #1 source for parents, student athletes and NIL professionals. Navigate the new era of college sports.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* CSS Reset and Variables */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --nil-green: #00E5A0;
+            --nil-green-dark: #00cc8a;
+            --nil-orange: #FF6B35;
+            --nil-dark: #0a0a0a;
+            --nil-darker: #050505;
+            --nil-light: #ffffff;
+            --nil-gray: #888888;
+            --nil-gray-light: #cccccc;
+            
+            --gradient-primary: linear-gradient(135deg, var(--nil-green) 0%, var(--nil-green-dark) 100%);
+            --gradient-dark: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.8) 100%);
+            
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition-base: 0.3s ease;
+            --transition-slow: 0.6s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--nil-darker);
+            color: var(--nil-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Password Protection */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--nil-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .auth-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .auth-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .auth-logo {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo .nil {
+            color: var(--nil-green);
+            font-style: italic;
+        }
+
+        .auth-logo .gameplan {
+            background: var(--nil-light);
+            color: var(--nil-dark);
+            padding: 5px 15px;
+            margin-left: -5px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--nil-light);
+            font-size: 16px;
+            transition: all var(--transition-base);
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            border-color: var(--nil-green);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 15px;
+            background: var(--nil-green);
+            border: none;
+            border-radius: 8px;
+            color: var(--nil-dark);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .auth-form button:hover {
+            background: var(--nil-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 229, 160, 0.3);
+        }
+
+        .error-message {
+            color: #ff4444;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--nil-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .logo-animation {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-base);
+            transform: translateY(0);
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--nil-gray-light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color var(--transition-base);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--nil-green);
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--nil-light);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--nil-green);
+            color: var(--nil-dark);
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+        }
+
+        .nav-cta:hover {
+            background: var(--nil-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 229, 160, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 229, 160, 0.1), transparent),
+                        radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.05), transparent);
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-logo {
+            margin-bottom: 60px;
+        }
+
+        .logo-main {
+            font-size: clamp(60px, 10vw, 120px);
+            margin-bottom: 30px;
+        }
+
+        .nil-text {
+            color: var(--nil-green);
+            font-style: italic;
+        }
+
+        .gameplan-box {
+            background: var(--nil-light);
+            color: var(--nil-dark);
+            padding: 0 30px;
+            margin-left: -10px;
+            position: relative;
+        }
+
+        .tagline {
+            background: var(--nil-orange);
+            display: inline-block;
+            padding: 20px 40px;
+            transform: skew(-10deg);
+            margin-bottom: 60px;
+        }
+
+        .tagline h2 {
+            transform: skew(10deg);
+            font-size: clamp(18px, 3vw, 32px);
+            font-weight: 900;
+            font-style: italic;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 50px;
+            border-radius: 20px;
+            transition: all var(--transition-base);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 229, 160, 0.2);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--nil-green);
+        }
+
+        .stat-suffix {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--nil-green);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--nil-gray-light);
+            margin-top: 10px;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--nil-green);
+            border-radius: 25px;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 10px;
+            background: var(--nil-green);
+            border-radius: 2px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 2s ease-in-out infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+            100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            font-style: italic;
+            background: linear-gradient(to right, var(--nil-light), var(--nil-gray-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--nil-gray-light);
+            font-weight: 300;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+            gap: 40px;
+        }
+
+        .timeline-date {
+            flex: 0 0 200px;
+            text-align: center;
+        }
+
+        .timeline-date .month {
+            display: block;
+            font-size: 18px;
+            color: var(--nil-gray);
+        }
+
+        .timeline-date .year {
+            display: block;
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--nil-green);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .timeline-content h3 {
+            font-size: 28px;
+            color: var(--nil-green);
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: var(--nil-green);
+        }
+
+        /* Problem Section */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .problem-card {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .problem-card:hover {
+            background: rgba(255, 107, 53, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .problem-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .problem-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--nil-orange);
+        }
+
+        /* Solution Cards */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .solution-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--nil-green) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 229, 160, 0.3);
+        }
+
+        .solution-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .solution-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--nil-green);
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-card p {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .team-member {
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid var(--nil-green);
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .team-member .role {
+            color: var(--nil-green);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Platform Section */
+        .platform-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            transition: all var(--transition-base);
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        /* Charts Container */
+        .chart-container {
+            max-width: 800px;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            margin-top: 40px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--nil-gray-light);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color var(--transition-base);
+            font-size: 18px;
+        }
+
+        .contact-link:hover {
+            color: var(--nil-green);
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--nil-light);
+            font-family: inherit;
+            transition: all var(--transition-base);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--nil-green);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px 30px;
+            background: var(--nil-green);
+            color: var(--nil-dark);
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .submit-btn:hover {
+            background: var(--nil-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 229, 160, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--nil-darker);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Parallax Background */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 229, 160, 0.1), transparent),
+                        radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.05), transparent);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Protection -->
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
+            </div>
+            <h2 style="color: #fff; font-weight: 300; margin-bottom: 30px;">Access Presentation</h2>
+            <form id="authForm" class="auth-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">LOGIN</button>
+            </form>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="loader hidden">
+        <div class="loader-content">
+            <div class="logo-animation">
+                <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#revolution" class="nav-link">Revolution</a>
+                <a href="#problem" class="nav-link">Problem</a>
+                <a href="#solution" class="nav-link">Solution</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#platform" class="nav-link">Platform</a>
+                <a href="#contact" class="nav-link nav-cta">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="section hero-section">
+        <div class="parallax-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-logo fade-in">
+                    <h1 class="logo-main">
+                        <span class="nil-text">NIL</span><span class="gameplan-box">GAMEPLAN</span>
+                    </h1>
+                    <div class="tagline">
+                        <h2>THE #1 SOURCE FOR PARENTS, STUDENT ATHLETES AND NIL PROFESSIONALS</h2>
+                    </div>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-card fade-in">
+                        <div class="stat-number" data-count="60">0</div>
+                        <div class="stat-suffix">M+</div>
+                        <div class="stat-label">Youth Athletes in USA</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-number" data-count="1.7">0</div>
+                        <div class="stat-suffix">B</div>
+                        <div class="stat-label">NIL Market 2024</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-number" data-count="38">0</div>
+                        <div class="stat-suffix"></div>
+                        <div class="stat-label">States Legal</div>
+                    </div>
+                </div>
+                
+                <div class="scroll-indicator">
+                    <div class="mouse">
+                        <div class="wheel"></div>
+                    </div>
+                    <span>Scroll to explore</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NIL Revolution Section -->
+    <section id="revolution" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">THE NIL REVOLUTION</h2>
+                <p class="section-subtitle">A new era in college athletics has begun</p>
+            </div>
+            
+            <div class="timeline-container">
+                <div class="timeline-item slide-in-left">
+                    <div class="timeline-date">
+                        <span class="month">July</span>
+                        <span class="year">2021</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Supreme Court Ruling</h3>
+                        <p>The Supreme Court ruled players must be paid for their <strong>name, image and likeness</strong>.</p>
+                        <p>This forced NCAA policy to shift, launching the <span class="highlight">NIL era</span>.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item slide-in-right">
+                    <div class="timeline-date">
+                        <span class="month">June</span>
+                        <span class="year">2025</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>House vs. NCAA Settlement</h3>
+                        <p>Created a multi-billion dollar pay-to-play industry overnight.</p>
+                        <p><strong>320 schools opted in</strong>, including all Power 5 universities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container fade-in">
+                <canvas id="marketGrowthChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">THE FINANCIAL CHAOS OF NIL</h2>
+                <p class="section-subtitle">Families are overwhelmed and underprepared</p>
+            </div>
+            
+            <div class="problem-grid">
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">🤔</div>
+                    <h3>Parents are confused</h3>
+                    <p>No clear guidance on navigating NIL opportunities</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">⚖️</div>
+                    <h3>Legal complexity</h3>
+                    <p>State-by-state regulations create compliance nightmares</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">💸</div>
+                    <h3>Financial vulnerability</h3>
+                    <p>Athletes unprepared for sudden wealth and tax implications</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">🎯</div>
+                    <h3>Missed opportunities</h3>
+                    <p>Families leaving money on the table without proper representation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">THE NIL GAMEPLAN SOLUTION</h2>
+                <p class="section-subtitle">A complete NIL business infrastructure built for parents and athletes</p>
+            </div>
+
+            <div class="solution-grid">
+                <div class="solution-card fade-in">
+                    <div class="card-icon">📚</div>
+                    <h3>Education & Workshops</h3>
+                    <p>Step-by-step education & workshops to form legitimate NIL businesses</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="card-icon">🤝</div>
+                    <h3>Sports Representation</h3>
+                    <p>Scalable, AI-powered 360° sports representation: contract support, brand advisory, and deal vetting</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="card-icon">🛡️</div>
+                    <h3>Insurance</h3>
+                    <p>Proprietary insurance products for injury protection, identity security, and income coverage</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="card-icon">💎</div>
+                    <h3>Guaranteed First Deal</h3>
+                    <p>Get families started and equipped with real NIL opportunities</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; background: rgba(0, 229, 160, 0.1); padding: 40px; border-radius: 20px; margin-top: 60px;">
+                <h3 style="font-size: 28px; margin-bottom: 15px;">Parents don't just use NIL Gameplan - they become part of it.</h3>
+                <p style="font-size: 18px;">Every family success story drives the next one forward.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">ELITE NEGOTIATORS. PROVEN BUSINESS BUILDERS.</h2>
+                <p class="section-subtitle">Leadership team with 150+ years of combined experience</p>
+            </div>
+
+            <div class="team-grid" id="teamGrid">
+                <!-- Team members will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Section -->
+    <section id="platform" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">PROVEN TECH PLATFORM</h2>
+                <p class="section-subtitle">All-in-one experience platform for NIL education</p>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 60px;">
+                <img src="../images/image11.jpeg" alt="NIL Gameplan Platform" style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+            </div>
+
+            <div class="platform-features">
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">💬</div>
+                    <h3>Ask the Expert</h3>
+                    <p>Direct access to NIL professionals</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">👥</div>
+                    <h3>Group Panel Events</h3>
+                    <p>Learn from industry leaders</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🔓</div>
+                    <h3>Unlockable Content</h3>
+                    <p>Exclusive resources and guides</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">📺</div>
+                    <h3>Livestream Events</h3>
+                    <p>Real-time education and Q&A</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">📚</div>
+                    <h3>Resource Library</h3>
+                    <p>Comprehensive NIL documentation</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">💬</div>
+                    <h3>Member Chat</h3>
+                    <p>Connect with other families</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Opportunity Section -->
+    <section id="opportunity" class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">THE OPPORTUNITY</h2>
+                <p class="section-subtitle">First mover advantage in a billion-dollar market</p>
+            </div>
+
+            <div class="chart-container fade-in">
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 60px;">
+                <div class="solution-card fade-in">
+                    <div class="card-icon">🥇</div>
+                    <h3>First Mover</h3>
+                    <p>First comprehensive NIL/Pay-to-Play education platform for parents</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="card-icon">📈</div>
+                    <h3>Scalable Model</h3>
+                    <p>Built to represent thousands of student athletes efficiently</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="card-icon">🔒</div>
+                    <h3>Insurance Innovation</h3>
+                    <p>Unique products protecting athletes from youth through college</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h2>Your Game Plan Starts Now</h2>
+                    <p style="font-size: 20px; color: var(--nil-gray-light); margin-bottom: 30px;">Join the NIL revolution. Be part of the solution.</p>
+                    <div class="contact-details">
+                        <a href="mailto:info@mynilgameplan.com" class="contact-link">
+                            <span>✉️</span>
+                            info@mynilgameplan.com
+                        </a>
+                        <a href="https://mynilgameplan.com" class="contact-link">
+                            <span>🌐</span>
+                            mynilgameplan.com
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-form fade-in">
+                    <form id="contactForm">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <input type="tel" placeholder="Phone Number">
+                        <textarea placeholder="Tell us about your NIL journey" rows="4"></textarea>
+                        <button type="submit" class="submit-btn">Get Started</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
+            </div>
+            <p style="color: var(--nil-gray); font-size: 14px;">© 2024 NIL Gameplan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Authentication
+        const authOverlay = document.getElementById('authOverlay');
+        const authForm = document.getElementById('authForm');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        // Check if already authenticated
+        if (sessionStorage.getItem('nilGameplanAuth') === 'true') {
+            authOverlay.classList.add('hidden');
+            initializeApp();
+        }
+        
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'MyNILGamePlan' && password === 'NIL2025!') {
+                sessionStorage.setItem('nilGameplanAuth', 'true');
+                authOverlay.classList.add('hidden');
+                initializeApp();
+            } else {
+                errorMessage.textContent = 'Invalid username or password';
+                errorMessage.classList.add('show');
+                document.getElementById('password').value = '';
+            }
+        });
+
+        function initializeApp() {
+            // Show loader briefly
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+            
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                startAnimations();
+            }, 1500);
+        }
+
+        function startAnimations() {
+            // Navigation
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let lastScrollY = window.scrollY;
+            
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                
+                // Show/hide navbar
+                if (scrollY > lastScrollY && scrollY > 100) {
+                    navbar.classList.add('hidden');
+                } else {
+                    navbar.classList.remove('hidden');
+                }
+                
+                // Add scrolled class
+                if (scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                lastScrollY = scrollY;
+                
+                // Update active nav link
+                updateActiveNavLink();
+            });
+            
+            function updateActiveNavLink() {
+                const sections = document.querySelectorAll('.section');
+                
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isVisible = rect.top <= 100 && rect.bottom >= 100;
+                    
+                    if (isVisible) {
+                        const sectionId = section.getAttribute('id');
+                        navLinks.forEach(link => {
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            } else {
+                                link.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Smooth scrolling
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Animate stats
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const animateValue = (element, start, end, duration) => {
+                let startTimestamp = null;
+                const isDecimal = end % 1 !== 0;
+                
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = progress * (end - start) + start;
+                    element.textContent = isDecimal ? value.toFixed(1) : Math.floor(value);
+                    
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                
+                window.requestAnimationFrame(step);
+            };
+            
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Animate stats
+                        if (entry.target.classList.contains('stat-card')) {
+                            const statNumber = entry.target.querySelector('.stat-number');
+                            if (statNumber && !statNumber.animated) {
+                                statNumber.animated = true;
+                                const endValue = parseFloat(statNumber.getAttribute('data-count'));
+                                animateValue(statNumber, 0, endValue, 2000);
+                            }
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animated elements
+            document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Initialize Charts
+            initCharts();
+            
+            // Load Team Members
+            loadTeamMembers();
+            
+            // Contact Form
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const btn = e.target.querySelector('.submit-btn');
+                const originalText = btn.textContent;
+                
+                btn.textContent = '✓ Message Sent!';
+                btn.style.background = '#00cc8a';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    contactForm.reset();
+                }, 2000);
+            });
+        }
+
+        function initCharts() {
+            // Market Growth Chart
+            const marketCtx = document.getElementById('marketGrowthChart');
+            if (marketCtx) {
+                new Chart(marketCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2021', '2022', '2023', '2024', '2025', '2026'],
+                        datasets: [{
+                            label: 'NIL Market Size (Billions)',
+                            data: [0.5, 0.8, 1.2, 1.7, 2.5, 3.5],
+                            borderColor: '#00E5A0',
+                            backgroundColor: 'rgba(0, 229, 160, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#00E5A0',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'NIL Market Growth',
+                                color: '#fff',
+                                font: {
+                                    size: 20
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#888',
+                                    callback: function(value) {
+                                        return '$' + value + 'B';
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#888'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                new Chart(revenueCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Year 1', 'Year 2', 'Year 3'],
+                        datasets: [
+                            {
+                                label: 'Workshop Revenue',
+                                data: [2.5, 8.5, 15.2],
+                                backgroundColor: '#00E5A0'
+                            },
+                            {
+                                label: 'Platform Subscriptions',
+                                data: [1.8, 5.2, 9.8],
+                                backgroundColor: '#4A90E2'
+                            },
+                            {
+                                label: 'Agency Revenue',
+                                data: [0.5, 3.5, 8.5],
+                                backgroundColor: '#FF6B35'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Revenue Projections (Millions)',
+                                color: '#fff',
+                                font: {
+                                    size: 20
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#888',
+                                    padding: 20
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                stacked: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#888',
+                                    callback: function(value) {
+                                        return '$' + value + 'M';
+                                    }
+                                }
+                            },
+                            x: {
+                                stacked: true,
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#888'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function loadTeamMembers() {
+            const teamData = [
+                { name: 'Pete Hayes', role: 'Chairman / Managing Partner' },
+                { name: 'Gavin Southwell', role: 'Board Member / Managing Partner' },
+                { name: 'Scott Blackburn', role: 'CEO' },
+                { name: 'Gary Davis', role: 'Chief Marketing Officer' },
+                { name: 'Paul Slaats', role: 'Managing Partner' },
+                { name: 'Neil Montesano', role: 'Managing Partner - Brand' }
+            ];
+            
+            const teamGrid = document.getElementById('teamGrid');
+            
+            teamData.forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'team-member fade-in';
+                memberCard.innerHTML = `
+                    <div class="member-photo">
+                        <img src="../images/image8.png" alt="${member.name}">
+                    </div>
+                    <h3>${member.name}</h3>
+                    <p class="role">${member.role}</p>
+                `;
+                teamGrid.appendChild(memberCard);
+            });
+            
+            // Observe new team members
+            document.querySelectorAll('.team-member').forEach(el => {
+                observer.observe(el);
+            });
+        }
+    </script>
+</body>
+</html>
