@@ -190,6 +190,27 @@ body {
     position: relative;
 }
 
+/* Background overlay for slides with background images */
+.slide-content[style*="background-image"] {
+    position: relative;
+}
+
+.slide-content[style*="background-image"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 0;
+}
+
+.slide-content[style*="background-image"] > * {
+    position: relative;
+    z-index: 1;
+}
+
 .slide {
     position: absolute;
     top: 0;
