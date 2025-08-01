@@ -5,3 +5,5 @@
 2025-08-01 04:32:26:3226 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:32:26 +0000] "GET /api/v1/dashboard/overview HTTP/1.1" 401 99 "-" "curl/8.7.1"
 2025-08-01 04:33:10:3310 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:33:10 +0000] "GET / HTTP/1.1" 404 90 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 2025-08-01 04:33:10:3310 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:33:10 +0000] "GET /favicon.ico HTTP/1.1" 404 101 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-01 04:34:19:3419 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:34:19 +0000] "GET /api/v1/health HTTP/1.1" 404 103 "-" "curl/8.7.1"
+2025-08-01 04:34:23:3423 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:34:23 +0000] "GET /health HTTP/1.1" 200 207 "-" "curl/8.7.1"
