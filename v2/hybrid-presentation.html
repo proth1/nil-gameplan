@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GAMEPLAN - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nil-green: #00ff9d;
+            --nil-dark-green: #00cc7a;
+            --nil-orange: #ff6b35;
+            --nil-dark: #0a0a0a;
+            --nil-gray: #1a1a1a;
+            --nil-light-gray: #2a2a2a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--nil-dark);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Password Protection */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--nil-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-overlay.hidden {
+            display: none;
+        }
+
+        .auth-box {
+            background: var(--nil-light-gray);
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .auth-logo {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            letter-spacing: -3px;
+        }
+
+        .auth-logo .nil {
+            color: var(--nil-green);
+            font-style: italic;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 18px 24px;
+            margin-bottom: 20px;
+            background: var(--nil-gray);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--nil-green);
+            background: rgba(0,255,157,0.05);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--nil-green), var(--nil-dark-green));
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,255,157,0.4);
+        }
+
+        .auth-error {
+            color: #ff5555;
+            font-size: 14px;
+            margin-top: 20px;
+            display: none;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Presentation */
+        .presentation-container {
+            display: none;
+            height: 100vh;
+            position: relative;
+        }
+
+        .presentation-container.active {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26,26,26,0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .header-logo .nil {
+            color: var(--nil-green);
+            font-style: italic;
+        }
+
+        .slide-indicator {
+            font-size: 14px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        /* Slides */
+        .slides-wrapper {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: none;
+            padding-top: 80px;
+        }
+
+        .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-content {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .slide-background {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .slide-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(5px);
+        }
+
+        .slide-foreground {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Slide Styles */
+        .title-slide .slide-foreground {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title-slide h1 {
+            font-size: 96px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            letter-spacing: -4px;
+            background: linear-gradient(135deg, var(--nil-green), var(--nil-dark-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-slide p {
+            font-size: 32px;
+            color: #ccc;
+            font-weight: 300;
+        }
+
+        .content-slide {
+            background: var(--nil-gray);
+        }
+
+        .content-slide .slide-foreground {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            text-align: left;
+        }
+
+        .content-text h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.1;
+        }
+
+        .content-text h2 .highlight {
+            color: var(--nil-green);
+        }
+
+        .content-text p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .content-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .content-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(0,255,157,0.1);
+            border-color: var(--nil-green);
+        }
+
+        .stat-value {
+            font-size: 56px;
+            font-weight: 900;
+            color: var(--nil-green);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(42,42,42,0.95);
+            padding: 20px 40px;
+            border-radius: 100px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: var(--nil-green);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot.active {
+            width: 24px;
+            background: var(--nil-green);
+            border-radius: 4px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 79px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            z-index: 999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--nil-green);
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(0,255,157,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Protection -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span class="nil">NIL</span><span>GAMEPLAN</span>
+            </div>
+            <form id="authForm">
+                <input type="text" class="auth-input" placeholder="Username" id="username" required>
+                <input type="password" class="auth-input" placeholder="Password" id="password" required>
+                <button type="submit" class="auth-button">Access Presentation</button>
+                <div class="auth-error" id="authError">Invalid credentials. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Presentation -->
+    <div class="presentation-container" id="presentationContainer">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">
+                <span class="nil">NIL</span><span>GAMEPLAN</span>
+            </div>
+            <div class="slide-indicator">
+                Slide <span id="currentSlide">1</span> of <span id="totalSlides">28</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Slides -->
+        <div class="slides-wrapper">
+            <!-- Slide 1: Title -->
+            <div class="slide active title-slide">
+                <div class="slide-background">
+                    <img src="../slides/slide1_image1.png" alt="">
+                </div>
+                <div class="slide-content">
+                    <div class="slide-foreground">
+                        <h1>NIL GAMEPLAN</h1>
+                        <p>Transforming College Athletics in the NIL Era</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Market Opportunity -->
+            <div class="slide content-slide">
+                <div class="slide-content">
+                    <div class="slide-foreground">
+                        <div class="content-text">
+                            <h2>The <span class="highlight">$1.7 Billion</span> Opportunity</h2>
+                            <p>The NIL market has exploded since July 2021, creating unprecedented opportunities for student-athletes and the businesses that support them.</p>
+                            <div class="stat-grid">
+                                <div class="stat-card">
+                                    <div class="stat-value">450K+</div>
+                                    <div class="stat-label">NCAA Athletes</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">$8K</div>
+                                    <div class="stat-label">Avg Deal Value</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">92%</div>
+                                    <div class="stat-label">Need Guidance</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-image">
+                            <img src="../slides/slide4_image2.png" alt="Market Stats">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional slides would continue in this pattern... -->
+            <!-- I'll create a few more key slides to demonstrate the concept -->
+
+            <!-- Slide 3: Platform Overview -->
+            <div class="slide content-slide">
+                <div class="slide-content">
+                    <div class="slide-foreground">
+                        <div class="content-image">
+                            <img src="../slides/slide6_image0.png" alt="Platform">
+                        </div>
+                        <div class="content-text">
+                            <h2>Your Complete <span class="highlight">NIL Platform</span></h2>
+                            <p>Everything student-athletes need to navigate, manage, and maximize their NIL opportunities in one comprehensive platform.</p>
+                            <ul style="list-style: none; font-size: 18px; line-height: 2;">
+                                <li>✓ Education & Compliance</li>
+                                <li>✓ Brand Partnerships</li>
+                                <li>✓ Financial Management</li>
+                                <li>✓ Legal Protection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Team -->
+            <div class="slide content-slide">
+                <div class="slide-content">
+                    <div class="slide-foreground" style="text-align: center;">
+                        <h2 style="margin-bottom: 50px;">World-Class <span class="highlight">Leadership Team</span></h2>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
+                            <div class="stat-card">
+                                <img src="../images/image15.png" alt="Michael Proman" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px;">
+                                <h4>Michael Proman</h4>
+                                <p style="font-size: 14px; color: #888;">Founder & CEO</p>
+                            </div>
+                            <div class="stat-card">
+                                <img src="../images/image16.png" alt="Jeffrey Taylor" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px;">
+                                <h4>Jeffrey Taylor</h4>
+                                <p style="font-size: 14px; color: #888;">President</p>
+                            </div>
+                            <div class="stat-card">
+                                <img src="../images/image17.png" alt="Bill Fagan" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px;">
+                                <h4>Bill Fagan</h4>
+                                <p style="font-size: 14px; color: #888;">EVP Brand & Content</p>
+                            </div>
+                            <div class="stat-card">
+                                <img src="../images/image18.png" alt="Bill Madden" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px;">
+                                <h4>Bill Madden</h4>
+                                <p style="font-size: 14px; color: #888;">EVP Broadcast</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Slide -->
+            <div class="slide title-slide">
+                <div class="slide-content">
+                    <div class="slide-foreground">
+                        <h1 style="font-size: 72px;">Thank You</h1>
+                        <p style="margin-top: 40px; font-size: 24px;">Ready to transform college athletics together?</p>
+                        <p style="margin-top: 20px; color: var(--nil-green);">hello@nilgameplan.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-controls">
+            <button class="nav-button" id="prevBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="nav-dots" id="navDots"></div>
+            <button class="nav-button" id="nextBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Authentication
+        const authForm = document.getElementById('authForm');
+        const authOverlay = document.getElementById('authOverlay');
+        const authError = document.getElementById('authError');
+        const presentationContainer = document.getElementById('presentationContainer');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('nilGameplanAuth') === 'true') {
+            authOverlay.classList.add('hidden');
+            presentationContainer.classList.add('active');
+        }
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'MyNILGamePlan' && password === 'NIL2025!') {
+                sessionStorage.setItem('nilGameplanAuth', 'true');
+                authOverlay.classList.add('hidden');
+                presentationContainer.classList.add('active');
+                initPresentation();
+            } else {
+                authError.style.display = 'block';
+                setTimeout(() => authError.style.display = 'none', 3000);
+            }
+        });
+
+        // Presentation Logic
+        function initPresentation() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentSlideSpan = document.getElementById('currentSlide');
+            const totalSlidesSpan = document.getElementById('totalSlides');
+            const progressFill = document.getElementById('progressFill');
+            const navDots = document.getElementById('navDots');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            totalSlidesSpan.textContent = totalSlides;
+
+            // Create navigation dots
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                navDots.appendChild(dot);
+            }
+
+            const dots = document.querySelectorAll('.nav-dot');
+
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSlide);
+                });
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+                
+                currentSlideSpan.textContent = currentSlide + 1;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+                
+                // Update progress bar
+                const progress = ((currentSlide + 1) / totalSlides) * 100;
+                progressFill.style.width = progress + '%';
+            }
+
+            function goToSlide(index) {
+                if (index >= 0 && index < totalSlides) {
+                    currentSlide = index;
+                    updateSlide();
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!presentationContainer.classList.contains('active')) return;
+                
+                if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                } else if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                } else if (e.key === 'Home') {
+                    currentSlide = 0;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    currentSlide = totalSlides - 1;
+                    updateSlide();
+                }
+            });
+
+            // Touch support
+            let touchStartX = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            document.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0 && currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        updateSlide();
+                    } else if (diff < 0 && currentSlide > 0) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                }
+            });
+        }
+
+        // Initialize if already authenticated
+        if (presentationContainer.classList.contains('active')) {
+            initPresentation();
+        }
+    </script>
+</body>
+</html>

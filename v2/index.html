@@ -3,401 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIL GAMEPLAN | The Future of College Athletics</title>
-    <meta name="description" content="The #1 source for parents, student athletes and NIL professionals. Navigate the new era of college sports.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="./src/styles/main.css">
+    <title>NIL GAMEPLAN - Presentation Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: -3px;
+        }
+
+        .logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #888;
+            margin-bottom: 60px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .option-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff9d;
+            box-shadow: 0 20px 40px rgba(0,255,157,0.2);
+        }
+
+        .option-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .option-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #00ff9d;
+        }
+
+        .option-description {
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .auth-note {
+            background: rgba(0,255,157,0.1);
+            border: 1px solid rgba(0,255,157,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        .auth-note h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #00ff9d;
+        }
+
+        .auth-note p {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            padding: 15px 30px;
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .download-link:hover {
+            background: #00ff9d;
+            color: #000;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loader" class="loader">
-        <div class="loader-content">
-            <div class="logo-animation">
-                <span class="nil">NIL</span>
-                <span class="gameplan">GAMEPLAN</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
+    <div class="container">
+        <h1 class="logo">
+            <span class="nil">NIL</span><span>GAMEPLAN</span>
+        </h1>
+        <p class="subtitle">Choose Your Preferred Presentation Format</p>
+
+        <div class="options-grid">
+            <a href="image-slides.html" class="option-card">
+                <div class="option-icon">🖼️</div>
+                <h2 class="option-title">Image Slides</h2>
+                <p class="option-description">
+                    Classic slide presentation using extracted images from the original deck. 
+                    Simple navigation with keyboard and touch support.
+                </p>
+            </a>
+
+            <a href="hybrid-presentation.html" class="option-card">
+                <div class="option-icon">✨</div>
+                <h2 class="option-title">Interactive Version</h2>
+                <p class="option-description">
+                    Enhanced presentation with animations, overlays, and modern design. 
+                    Best viewing experience with smooth transitions.
+                </p>
+            </a>
+
+            <a href="pages.html" class="option-card">
+                <div class="option-icon">📄</div>
+                <h2 class="option-title">Page-Based</h2>
+                <p class="option-description">
+                    Full-page navigation with pixel-perfect design. 
+                    Each section as a complete page with sticky header.
+                </p>
+            </a>
+
+            <a href="pdf-viewer.html" class="option-card">
+                <div class="option-icon">📑</div>
+                <h2 class="option-title">PDF Portal</h2>
+                <p class="option-description">
+                    Access the original PDF presentation with download option. 
+                    Includes quick links to other formats.
+                </p>
+            </a>
+
+            <a href="complete.html" class="option-card">
+                <div class="option-icon">📜</div>
+                <h2 class="option-title">Scrolling Version</h2>
+                <p class="option-description">
+                    Continuous scroll experience with all content in one page. 
+                    Immersive storytelling format.
+                </p>
+            </a>
+
+            <a href="../index.html" class="option-card">
+                <div class="option-icon">🎯</div>
+                <h2 class="option-title">Original Slides</h2>
+                <p class="option-description">
+                    The original HTML slide deck with all 28 slides. 
+                    Traditional presentation format.
+                </p>
+            </a>
         </div>
+
+        <div class="auth-note">
+            <h3>🔒 Authentication Required</h3>
+            <p>Username: <strong>MyNILGamePlan</strong> | Password: <strong>NIL2025!</strong></p>
+        </div>
+
+        <a href="../NIL_GAMEPLAN_Funding_Deck.pdf" class="download-link" download>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 2a1 1 0 011 1v9.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L9 12.586V3a1 1 0 011-1z"/>
+                <path d="M4 14a1 1 0 011 1v2h10v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z"/>
+            </svg>
+            Download Original PDF
+        </a>
     </div>
-
-    <!-- Navigation -->
-    <nav id="navbar" class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
-            </div>
-            <div class="nav-menu">
-                <a href="#home" class="nav-link active">Home</a>
-                <a href="#revolution" class="nav-link">Revolution</a>
-                <a href="#solution" class="nav-link">Solution</a>
-                <a href="#team" class="nav-link">Team</a>
-                <a href="#platform" class="nav-link">Platform</a>
-                <a href="#opportunity" class="nav-link">Opportunity</a>
-                <a href="#contact" class="nav-link nav-cta">Get Started</a>
-            </div>
-            <div class="nav-progress">
-                <div class="progress-track">
-                    <div class="progress-thumb"></div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="section hero-section">
-        <div class="hero-bg">
-            <div id="particles"></div>
-            <video autoplay muted loop playsinline class="hero-video">
-                <source src="./assets/hero-bg.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="hero-content">
-            <div class="hero-logo">
-                <h1 class="logo-main">
-                    <span class="nil-text">NIL</span>
-                    <span class="gameplan-box">GAMEPLAN</span>
-                </h1>
-                <div class="tagline">
-                    <h2>THE #1 SOURCE FOR PARENTS, STUDENT ATHLETES AND NIL PROFESSIONALS</h2>
-                </div>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <div class="stat-number" data-count="60">0</div>
-                    <div class="stat-suffix">M+</div>
-                    <div class="stat-label">Youth Athletes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" data-count="1.7">0</div>
-                    <div class="stat-suffix">B</div>
-                    <div class="stat-label">NIL Market 2024</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" data-count="38">0</div>
-                    <div class="stat-suffix"></div>
-                    <div class="stat-label">States Legal</div>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
-                <span>Scroll to explore</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- NIL Revolution Section -->
-    <section id="revolution" class="section revolution-section">
-        <div class="section-bg">
-            <div class="gradient-overlay"></div>
-        </div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">THE NIL REVOLUTION</h2>
-                <p class="section-subtitle">A new era in college athletics has begun</p>
-            </div>
-            
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-date">
-                        <span class="month">July</span>
-                        <span class="year">2021</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Supreme Court Ruling</h3>
-                        <p>The Supreme Court ruled players must be paid for their <strong>name, image and likeness</strong>.</p>
-                        <p>This forced NCAA policy to shift, launching the <span class="highlight">NIL era</span>.</p>
-                    </div>
-                    <div class="timeline-visual">
-                        <div class="impact-number">$1.7B</div>
-                        <div class="impact-label">Market Created</div>
-                    </div>
-                </div>
-                
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="timeline-date">
-                        <span class="month">June</span>
-                        <span class="year">2025</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>House vs. NCAA Settlement</h3>
-                        <p>Created a multi-billion dollar pay-to-play industry overnight.</p>
-                        <p><strong>320 schools opted in</strong>, including all Power 5 universities.</p>
-                    </div>
-                    <div class="timeline-visual">
-                        <div class="impact-number">$13.5B</div>
-                        <div class="impact-label">5-Year Guarantee</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="revolution-stats">
-                <canvas id="marketGrowthChart"></canvas>
-            </div>
-        </div>
-    </section>
-
-    <!-- Problem Section -->
-    <section id="problem" class="section problem-section">
-        <div class="container">
-            <div class="problem-layout">
-                <div class="problem-visual">
-                    <div class="chaos-animation">
-                        <div class="floating-icon" data-icon="question">?</div>
-                        <div class="floating-icon" data-icon="dollar">$</div>
-                        <div class="floating-icon" data-icon="warning">!</div>
-                        <div class="floating-icon" data-icon="legal">§</div>
-                    </div>
-                </div>
-                <div class="problem-content">
-                    <h2 class="section-title">THE FINANCIAL CHAOS OF NIL</h2>
-                    <div class="problem-list">
-                        <div class="problem-item" data-aos="fade-left">
-                            <div class="problem-icon">🤔</div>
-                            <div class="problem-text">
-                                <h3>Parents are confused</h3>
-                                <p>No clear guidance on navigating NIL opportunities</p>
-                            </div>
-                        </div>
-                        <div class="problem-item" data-aos="fade-left" data-aos-delay="100">
-                            <div class="problem-icon">⚖️</div>
-                            <div class="problem-text">
-                                <h3>Legal complexity</h3>
-                                <p>State-by-state regulations create compliance nightmares</p>
-                            </div>
-                        </div>
-                        <div class="problem-item" data-aos="fade-left" data-aos-delay="200">
-                            <div class="problem-icon">💸</div>
-                            <div class="problem-text">
-                                <h3>Financial vulnerability</h3>
-                                <p>Athletes unprepared for sudden wealth and tax implications</p>
-                            </div>
-                        </div>
-                        <div class="problem-item" data-aos="fade-left" data-aos-delay="300">
-                            <div class="problem-icon">🎯</div>
-                            <div class="problem-text">
-                                <h3>Missed opportunities</h3>
-                                <p>Families leaving money on the table without proper representation</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Solution Section -->
-    <section id="solution" class="section solution-section">
-        <div class="section-bg">
-            <div class="gradient-mesh"></div>
-        </div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">THE NIL GAMEPLAN SOLUTION</h2>
-                <p class="section-subtitle">A complete NIL business infrastructure built for parents and athletes</p>
-            </div>
-
-            <div class="solution-grid">
-                <div class="solution-card" data-aos="zoom-in">
-                    <div class="card-icon">
-                        <div class="icon-3d" data-icon="education">📚</div>
-                    </div>
-                    <h3>Education & Workshops</h3>
-                    <p>Step-by-step education & workshops to form legitimate NIL businesses</p>
-                </div>
-
-                <div class="solution-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="card-icon">
-                        <div class="icon-3d" data-icon="representation">🤝</div>
-                    </div>
-                    <h3>Sports Representation</h3>
-                    <p>Scalable, AI-powered 360° sports representation: contract support, brand advisory, and deal vetting</p>
-                </div>
-
-                <div class="solution-card" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="card-icon">
-                        <div class="icon-3d" data-icon="insurance">🛡️</div>
-                    </div>
-                    <h3>Insurance</h3>
-                    <p>Proprietary insurance products for injury protection, identity security, and income coverage</p>
-                </div>
-
-                <div class="solution-card" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="card-icon">
-                        <div class="icon-3d" data-icon="deal">💎</div>
-                    </div>
-                    <h3>Guaranteed First Deal</h3>
-                    <p>Get families started and equipped with real NIL opportunities</p>
-                </div>
-            </div>
-
-            <div class="solution-cta">
-                <h3>Parents don't just use NIL Gameplan - they become part of it.</h3>
-                <p>Every family success story drives the next one forward.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="section team-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">ELITE NEGOTIATORS. PROVEN BUSINESS BUILDERS.</h2>
-                <p class="section-subtitle">Leadership team with 150+ years of combined experience</p>
-            </div>
-
-            <div class="team-grid">
-                <!-- Team members will be dynamically loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Platform Section -->
-    <section id="platform" class="section platform-section">
-        <div class="section-bg">
-            <canvas id="platformCanvas"></canvas>
-        </div>
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">PROVEN TECH PLATFORM</h2>
-                <p class="section-subtitle">Experience the future of NIL education</p>
-            </div>
-
-            <div class="platform-showcase">
-                <div class="device-mockup-group">
-                    <div class="device phone" data-aos="fade-up">
-                        <div class="device-screen">
-                            <img src="../images/image11.jpeg" alt="Mobile Experience">
-                        </div>
-                    </div>
-                    <div class="device tablet" data-aos="fade-up" data-aos-delay="200">
-                        <div class="device-screen">
-                            <img src="../images/image12.jpeg" alt="Tablet Experience">
-                        </div>
-                    </div>
-                    <div class="device laptop" data-aos="fade-up" data-aos-delay="400">
-                        <div class="device-screen">
-                            <img src="../images/image13.png" alt="Desktop Experience">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="platform-features">
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
-                    <h3>Ask the Expert</h3>
-                    <p>Direct access to NIL professionals</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Group Panel Events</h3>
-                    <p>Learn from industry leaders</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔓</div>
-                    <h3>Unlockable Content</h3>
-                    <p>Exclusive resources and guides</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📺</div>
-                    <h3>Livestream Events</h3>
-                    <p>Real-time education and Q&A</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Opportunity Section -->
-    <section id="opportunity" class="section opportunity-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">THE OPPORTUNITY</h2>
-            </div>
-
-            <div class="opportunity-grid">
-                <div class="opportunity-card">
-                    <div class="card-number">01</div>
-                    <h3>First Mover Advantage</h3>
-                    <p>First comprehensive NIL/Pay-to-Play education platform for parents</p>
-                </div>
-                <div class="opportunity-card">
-                    <div class="card-number">02</div>
-                    <h3>Scalable Agency Model</h3>
-                    <p>Built to represent thousands of student athletes with AI-powered efficiency</p>
-                </div>
-                <div class="opportunity-card">
-                    <div class="card-number">03</div>
-                    <h3>Insurance Innovation</h3>
-                    <p>Unique products protecting athletes from youth through college</p>
-                </div>
-            </div>
-
-            <div class="revenue-projection">
-                <h3>Revenue Projection</h3>
-                <canvas id="revenueChart"></canvas>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-        <div class="container">
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h2>Your Game Plan Starts Now</h2>
-                    <p>Join the NIL revolution. Be part of the solution.</p>
-                    <div class="contact-details">
-                        <a href="mailto:info@mynilgameplan.com" class="contact-link">
-                            <span class="icon">✉️</span>
-                            info@mynilgameplan.com
-                        </a>
-                        <a href="https://mynilgameplan.com" class="contact-link">
-                            <span class="icon">🌐</span>
-                            mynilgameplan.com
-                        </a>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
-                        <input type="tel" placeholder="Phone Number">
-                        <textarea placeholder="Tell us about your NIL journey" rows="4"></textarea>
-                        <button type="submit" class="submit-btn">
-                            <span>Get Started</span>
-                            <div class="btn-particles"></div>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
-                </div>
-                <p class="footer-text">© 2024 NIL Gameplan. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script type="module" src="./src/js/main.js"></script>
 </body>
 </html>

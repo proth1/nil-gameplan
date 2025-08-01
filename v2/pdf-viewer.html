@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GAMEPLAN - PDF Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Password Protection */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .auth-overlay.hidden {
+            display: none;
+        }
+
+        .auth-box {
+            background: #2a2a2a;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .auth-logo {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            letter-spacing: -2px;
+        }
+
+        .auth-logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .auth-logo .gameplan {
+            background: linear-gradient(45deg, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            background: #333;
+            border: 2px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #00ff9d;
+            background: #3a3a3a;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 15px 20px;
+            background: linear-gradient(45deg, #00ff9d, #00cc7a);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,157,0.3);
+        }
+
+        .auth-error {
+            color: #ff5555;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* PDF Container */
+        .pdf-container {
+            display: none;
+            height: 100vh;
+            position: relative;
+            background: #1a1a1a;
+        }
+
+        .pdf-container.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: #2a2a2a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-title .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        /* PDF Viewer */
+        .pdf-frame-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #1a1a1a;
+        }
+
+        .pdf-frame {
+            width: 100%;
+            height: 100%;
+            max-width: 1200px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Controls */
+        .controls {
+            background: #2a2a2a;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+        }
+
+        .control-button {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .control-button:hover {
+            background: #00ff9d;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            color: #888;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Fallback Message */
+        .fallback-message {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .fallback-message h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #00ff9d;
+        }
+
+        .fallback-message p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ff9d, #00cc7a);
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,157,0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Protection -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
+            </div>
+            <form id="authForm">
+                <input type="text" class="auth-input" placeholder="Username" id="username" required>
+                <input type="password" class="auth-input" placeholder="Password" id="password" required>
+                <button type="submit" class="auth-button">Access Presentation</button>
+                <div class="auth-error" id="authError">Invalid credentials. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PDF Viewer -->
+    <div class="pdf-container" id="pdfContainer">
+        <div class="header">
+            <div class="header-title">
+                <span class="nil">NIL</span><span>GAMEPLAN</span> Funding Deck
+            </div>
+            <div class="page-info">
+                Professional Presentation
+            </div>
+        </div>
+
+        <div class="pdf-frame-container">
+            <div class="fallback-message">
+                <h2>NIL GAMEPLAN Presentation</h2>
+                <p>
+                    This presentation contains our comprehensive funding deck for the NIL GAMEPLAN platform. 
+                    The deck includes market analysis, business model, financial projections, and team information.
+                </p>
+                <p>
+                    Due to browser security limitations, we recommend downloading the presentation for the best viewing experience.
+                </p>
+                <a href="../NIL_GAMEPLAN_Funding_Deck.pdf" class="download-button" download>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2a1 1 0 011 1v9.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L9 12.586V3a1 1 0 011-1z"/>
+                        <path d="M4 14a1 1 0 011 1v2h10v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3a1 1 0 011-1z"/>
+                    </svg>
+                    Download Presentation
+                </a>
+
+                <div style="margin-top: 40px;">
+                    <h3 style="font-size: 20px; margin-bottom: 15px; color: #00ff9d;">Key Highlights:</h3>
+                    <ul style="text-align: left; list-style: none; line-height: 1.8;">
+                        <li>📊 $1.7B NIL Market Opportunity</li>
+                        <li>🎯 450,000+ NCAA Athletes</li>
+                        <li>💰 $250M Revenue Projection by 2029</li>
+                        <li>🚀 Comprehensive Platform Solution</li>
+                        <li>🛡️ Proprietary Insurance Products</li>
+                        <li>👥 Experienced Leadership Team</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-button" onclick="window.location.href='image-slides.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M1 3a1 1 0 011-1h12a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V3z"/>
+                </svg>
+                View as Slides
+            </button>
+            <button class="control-button" onclick="window.location.href='hybrid-presentation.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M2 2a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V2z"/>
+                </svg>
+                Interactive Version
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Authentication
+        const authForm = document.getElementById('authForm');
+        const authOverlay = document.getElementById('authOverlay');
+        const authError = document.getElementById('authError');
+        const pdfContainer = document.getElementById('pdfContainer');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('nilGameplanAuth') === 'true') {
+            authOverlay.classList.add('hidden');
+            pdfContainer.classList.add('active');
+        }
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'MyNILGamePlan' && password === 'NIL2025!') {
+                sessionStorage.setItem('nilGameplanAuth', 'true');
+                authOverlay.classList.add('hidden');
+                pdfContainer.classList.add('active');
+            } else {
+                authError.style.display = 'block';
+                setTimeout(() => authError.style.display = 'none', 3000);
+            }
+        });
+    </script>
+</body>
+</html>

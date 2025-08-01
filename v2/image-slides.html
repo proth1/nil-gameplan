@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GAMEPLAN - Image Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Password Protection */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .auth-overlay.hidden {
+            display: none;
+        }
+
+        .auth-box {
+            background: #111;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .auth-logo {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 12px;
+            background: #00ff9d;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-error {
+            color: #ff4444;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Presentation Container */
+        .presentation-container {
+            display: none;
+            height: 100vh;
+            position: relative;
+        }
+
+        .presentation-container.active {
+            display: block;
+        }
+
+        /* Slides */
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: none;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .slide-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        /* Title Slides */
+        .title-slide {
+            background: linear-gradient(135deg, #00ff9d 0%, #00cc7a 100%);
+            color: #000;
+        }
+
+        .title-slide h1 {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .title-slide p {
+            font-size: 24px;
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: #333;
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #00ff9d;
+            color: #000;
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            color: #fff;
+            font-size: 14px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00ff9d;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Protection -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span class="nil">NIL</span><span>GAMEPLAN</span>
+            </div>
+            <form id="authForm">
+                <input type="text" class="auth-input" placeholder="Username" id="username" required>
+                <input type="password" class="auth-input" placeholder="Password" id="password" required>
+                <button type="submit" class="auth-button">Access Presentation</button>
+                <div class="auth-error" id="authError">Invalid credentials. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Presentation -->
+    <div class="presentation-container" id="presentationContainer">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="slide-content">
+                <h1>NIL GAMEPLAN</h1>
+                <p>The Future of College Athletics</p>
+                <img src="../slides/slide1_image1.png" alt="NIL Gameplan Logo" class="slide-image" style="max-width: 300px; margin-top: 40px;">
+            </div>
+        </div>
+
+        <!-- Slide 2: Platform Overview -->
+        <div class="slide">
+            <img src="../slides/slide2_image0.png" alt="Platform Overview" class="slide-image">
+        </div>
+
+        <!-- Slide 3: Vision -->
+        <div class="slide">
+            <img src="../slides/slide3_image1.jpg" alt="Our Vision" class="slide-image">
+        </div>
+
+        <!-- Slide 4: Market Size -->
+        <div class="slide">
+            <img src="../slides/slide4_image2.png" alt="$1.7B Market" class="slide-image">
+        </div>
+
+        <!-- Slide 5: Website -->
+        <div class="slide">
+            <img src="../slides/slide5_image0.jpg" alt="Website Preview" class="slide-image">
+        </div>
+
+        <!-- Slide 6: Platform Features -->
+        <div class="slide">
+            <img src="../slides/slide6_image0.png" alt="Platform Features" class="slide-image">
+        </div>
+
+        <!-- Slide 7: User Flow -->
+        <div class="slide">
+            <img src="../slides/slide7_image2.png" alt="User Journey" class="slide-image">
+        </div>
+
+        <!-- Slide 8: Revenue Model -->
+        <div class="slide">
+            <img src="../slides/slide8_image1.png" alt="Revenue Model" class="slide-image">
+        </div>
+
+        <!-- Slide 9: Pricing -->
+        <div class="slide">
+            <img src="../slides/slide9_image1.png" alt="Pricing Tiers" class="slide-image">
+        </div>
+
+        <!-- Slide 10: Growth Strategy -->
+        <div class="slide">
+            <img src="../slides/slide10_image0.jpg" alt="Growth Strategy" class="slide-image">
+        </div>
+
+        <!-- Slide 11: Competitive Landscape -->
+        <div class="slide">
+            <img src="../slides/slide11_image1.jpg" alt="Competition" class="slide-image">
+        </div>
+
+        <!-- Slide 12: Our Advantages -->
+        <div class="slide">
+            <img src="../slides/slide12_image1.jpg" alt="Our Advantages" class="slide-image">
+        </div>
+
+        <!-- Slide 13: Business Model -->
+        <div class="slide">
+            <img src="../slides/slide13_image0.jpg" alt="Business Model" class="slide-image">
+        </div>
+
+        <!-- Slide 14: Financial Projections -->
+        <div class="slide">
+            <img src="../slides/slide14_image1.png" alt="Projections" class="slide-image">
+        </div>
+
+        <!-- Slide 15: GPX Agency -->
+        <div class="slide">
+            <img src="../slides/slide15_image0.jpg" alt="GPX Agency" class="slide-image">
+        </div>
+
+        <!-- Slide 16: Agency Services -->
+        <div class="slide">
+            <img src="../slides/slide16_image0.jpg" alt="Services" class="slide-image">
+        </div>
+
+        <!-- Slide 17: Insurance -->
+        <div class="slide">
+            <img src="../slides/slide17_image0.jpg" alt="Insurance" class="slide-image">
+        </div>
+
+        <!-- Slide 18: Protecting Athletes -->
+        <div class="slide">
+            <img src="../slides/slide18_image0.jpg" alt="Protection" class="slide-image">
+        </div>
+
+        <!-- Slide 19: AthleteGuard -->
+        <div class="slide">
+            <img src="../slides/slide19_image0.jpg" alt="AthleteGuard" class="slide-image">
+        </div>
+
+        <!-- Slide 20: Partnership -->
+        <div class="slide">
+            <img src="../slides/slide20_image0.jpg" alt="Partnership" class="slide-image">
+        </div>
+
+        <!-- Slide 21: Opportunity -->
+        <div class="slide">
+            <img src="../slides/slide21_image0.jpg" alt="Opportunity" class="slide-image">
+        </div>
+
+        <!-- Slide 22: Team -->
+        <div class="slide">
+            <img src="../slides/slide22_image0.jpg" alt="Leadership Team" class="slide-image">
+        </div>
+
+        <!-- Slide 23: Team Members -->
+        <div class="slide">
+            <img src="../slides/slide23_image0.jpg" alt="Team Members" class="slide-image">
+        </div>
+
+        <!-- Slide 24: Fund Structure -->
+        <div class="slide">
+            <img src="../slides/slide24_image0.png" alt="Fund Structure" class="slide-image">
+        </div>
+
+        <!-- Slide 25: Investment -->
+        <div class="slide">
+            <img src="../slides/slide25_image0.png" alt="Investment" class="slide-image">
+        </div>
+
+        <!-- Slide 26: Terms -->
+        <div class="slide">
+            <img src="../slides/slide26_image1.png" alt="Terms" class="slide-image">
+        </div>
+
+        <!-- Slide 27: Contact -->
+        <div class="slide">
+            <img src="../slides/slide27_image0.jpg" alt="Contact" class="slide-image">
+        </div>
+
+        <!-- Slide 28: Thank You -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <h1>THANK YOU</h1>
+                <img src="../slides/slide28_image1.jpg" alt="Thank You" class="slide-image" style="max-width: 400px; margin-top: 40px;">
+                <p style="margin-top: 40px;">hello@nilgameplan.com</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <button class="nav-button" id="prevBtn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5l-5 5 5 5"/>
+                </svg>
+            </button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">28</span>
+            </div>
+            <button class="nav-button" id="nextBtn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 5l5 5-5 5"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Authentication
+        const authForm = document.getElementById('authForm');
+        const authOverlay = document.getElementById('authOverlay');
+        const authError = document.getElementById('authError');
+        const presentationContainer = document.getElementById('presentationContainer');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('nilGameplanAuth') === 'true') {
+            authOverlay.classList.add('hidden');
+            presentationContainer.classList.add('active');
+        }
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'MyNILGamePlan' && password === 'NIL2025!') {
+                sessionStorage.setItem('nilGameplanAuth', 'true');
+                authOverlay.classList.add('hidden');
+                presentationContainer.classList.add('active');
+            } else {
+                authError.style.display = 'block';
+                setTimeout(() => authError.style.display = 'none', 3000);
+            }
+        });
+
+        // Presentation Logic
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentSlideSpan = document.getElementById('currentSlide');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const progressFill = document.getElementById('progressFill');
+
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        totalSlidesSpan.textContent = totalSlides;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            currentSlideSpan.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!presentationContainer.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            } else if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            } else if (e.key === 'Escape') {
+                currentSlide = 0;
+                updateSlide();
+            }
+        });
+
+        // Touch/Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50 && currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+            if (touchEndX > touchStartX + 50 && currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+    </script>
+</body>
+</html>
