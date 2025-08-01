@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GamePlan - Admin Access</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .admin-redirect {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        h2 {
+            color: #00ff9d;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .admin-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .admin-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #00ff9d, #00cc7a);
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.3);
+        }
+
+        .secondary-link {
+            background: #444;
+            color: white;
+        }
+
+        .secondary-link:hover {
+            background: #555;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 10px;
+            color: #00ff9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-redirect">
+        <div class="logo">
+            <span class="nil">NIL</span><span>GAMEPLAN</span>
+        </div>
+        
+        <h2>🎯 Admin Dashboard Access</h2>
+        
+        <p>Welcome to the NIL GamePlan admin portal. Please log in first through the main presentation, then access the admin dashboard.</p>
+        
+        <div class="admin-links">
+            <a href="v2/pages.html" class="admin-link">📱 Login First</a>
+            <a href="admin-dashboard.html" class="admin-link secondary-link">🛠️ Admin Dashboard</a>
+        </div>
+        
+        <div class="status">
+            ⚡ Status: Admin dashboard is live and ready<br>
+            📊 Features: User management, analytics, CRUD operations
+        </div>
+    </div>
+
+    <script>
+        // Auto-redirect to login if not authenticated
+        setTimeout(() => {
+            const isAuthenticated = localStorage.getItem('nil_auth_token');
+            if (!isAuthenticated) {
+                window.location.href = 'v2/pages.html';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
