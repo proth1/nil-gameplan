@@ -1,0 +1,7 @@
+2025-08-01 04:29:42:2942 info: NIL Pulse API server running on port 3001
+2025-08-01 04:29:42:2942 info: Environment: production
+2025-08-01 04:29:42:2942 info: API Documentation: http://localhost:3001/api/v1/docs
+2025-08-01 04:30:00:300 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:30:00 +0000] "GET /health HTTP/1.1" 200 206 "-" "curl/8.7.1"
+2025-08-01 04:32:26:3226 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:32:26 +0000] "GET /api/v1/dashboard/overview HTTP/1.1" 401 99 "-" "curl/8.7.1"
+2025-08-01 04:33:10:3310 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:33:10 +0000] "GET / HTTP/1.1" 404 90 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-08-01 04:33:10:3310 info: ::ffff:192.168.65.1 - - [01/Aug/2025:04:33:10 +0000] "GET /favicon.ico HTTP/1.1" 404 101 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"

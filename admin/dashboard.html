@@ -837,11 +837,17 @@
             document.getElementById('createUserForm').reset();
         }
 
-        // Create user form handler
+        // Create user form handler  
         document.getElementById('createUserForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
             try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Creating User...';
+                
                 const formData = new FormData(e.target);
                 const userData = {
                     name: formData.get('name'),
@@ -850,14 +856,38 @@
                     role: formData.get('role')
                 };
 
-                const result = await window.nilAuth.createUser(userData);
-                if (!result.success) throw new Error(result.error);
+                // Create user directly with Supabase Auth (bypass the createUser function that's failing)
+                const { data: authData, error: authError } = await window.nilAuth.supabase.auth.admin.createUser({
+                    email: userData.email,
+                    password: userData.password,
+                    email_confirm: true
+                });
+
+                if (authError) throw authError;
+
+                // Create user profile
+                const { error: profileError } = await window.nilAuth.supabase
+                    .from('user_profiles')
+                    .insert({
+                        id: authData.user.id,
+                        email: userData.email,
+                        name: userData.name,
+                        role: userData.role,
+                        access_level: 'standard',
+                        is_active: true
+                    });
+
+                if (profileError) throw profileError;
 
                 hideCreateUserModal();
                 await loadUsers();
+                showError('User created successfully!'); // Reusing error div for success message
 
             } catch (error) {
                 showError('Failed to create user: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
         });
 
