@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GamePlan - Login Portal</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .portal-container {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: #333;
+            border: 2px solid #444;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ff9d;
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00ff9d, #00cc7a);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .credentials-hint {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .credentials-hint h3 {
+            color: #00ff9d;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .credentials-list {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .message {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .success {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: #00ff9d;
+        }
+
+        .error {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: #ff6b35;
+        }
+
+        .admin-access {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+        }
+
+        .admin-access a {
+            color: #00ff9d;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #00ff9d;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-access a:hover {
+            background: rgba(0, 255, 157, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="logo">
+            <span class="nil">NIL</span><span>GAMEPLAN</span>
+        </div>
+        <div class="subtitle">Access Portal</div>
+        
+        <div class="credentials-hint">
+            <h3>🔐 Available Credentials:</h3>
+            <div class="credentials-list">
+                <strong>Admin:</strong> MyNILGamePlan / NIL2025!<br>
+                <strong>Demo:</strong> demo_user / Demo2024!<br>
+                <strong>Investor:</strong> investor_1 / Invest2024!<br>
+                <strong>Partner:</strong> partner_alpha / Alpha2024!
+            </div>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            
+            <button type="submit" class="btn" id="loginBtn">Login</button>
+        </form>
+
+        <div class="message success" id="successMessage"></div>
+        <div class="message error" id="errorMessage"></div>
+
+        <div class="admin-access">
+            <a href="#" onclick="autoLogin()">Quick Admin Login →</a>
+        </div>
+    </div>
+
+    <script src="v2/auth-config.js"></script>
+    <script>
+        // Auto-login function for quick access
+        function autoLogin() {
+            document.getElementById('username').value = 'MyNILGamePlan';
+            document.getElementById('password').value = 'NIL2025!';
+            document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Authenticating...';
+            
+            try {
+                // Authenticate with mock system
+                const result = await window.authTracker.authenticate(username, password);
+                
+                if (result.success) {
+                    successMessage.innerHTML = `
+                        <strong>✅ Welcome, ${result.user.name}!</strong><br><br>
+                        Role: ${result.user.role.toUpperCase()}<br><br>
+                        Redirecting to ${result.user.role === 'admin' ? 'Admin Dashboard' : 'Presentation'}...
+                    `;
+                    successMessage.style.display = 'block';
+                    
+                    // Redirect based on role
+                    setTimeout(() => {
+                        if (result.user.role === 'admin') {
+                            window.location.href = 'admin-portal.html';
+                        } else {
+                            window.location.href = 'v2/pages.html';
+                        }
+                    }, 2000);
+                    
+                } else {
+                    throw new Error(result.error || 'Invalid credentials');
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.innerHTML = `
+                    <strong>❌ Login Failed:</strong><br>
+                    ${error.message}
+                `;
+                errorMessage.style.display = 'block';
+                
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            }
+        });
+
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const session = window.authTracker.isAuthenticated();
+            if (session) {
+                // Already logged in, redirect
+                if (session.role === 'admin') {
+                    window.location.href = 'admin-portal.html';
+                } else {
+                    window.location.href = 'v2/pages.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
