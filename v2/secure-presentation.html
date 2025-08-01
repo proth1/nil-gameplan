@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GAMEPLAN - Secure Presentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Authentication Styles */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .auth-overlay.hidden {
+            display: none;
+        }
+
+        .auth-container {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .auth-logo {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            letter-spacing: -3px;
+        }
+
+        .auth-logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .auth-subtitle {
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 18px 24px;
+            margin-bottom: 20px;
+            background: #333;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #00ff9d;
+            background: rgba(0,255,157,0.05);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, #00ff9d, #00cc7a);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .auth-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,255,157,0.4);
+        }
+
+        .auth-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-error {
+            color: #ff6b35;
+            font-size: 14px;
+            margin-top: 20px;
+            display: none;
+            padding: 15px;
+            background: rgba(255,107,53,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255,107,53,0.3);
+        }
+
+        .auth-loading {
+            color: #888;
+            font-size: 14px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Presentation Styles */
+        .presentation-container {
+            display: none;
+            height: 100vh;
+            position: relative;
+        }
+
+        .presentation-container.active {
+            display: block;
+        }
+
+        /* Header with user info */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26,26,26,0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .header-logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .header-logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .user-badge {
+            background: rgba(0,255,157,0.1);
+            color: #00ff9d;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            border-color: #00ff9d;
+            color: #00ff9d;
+        }
+
+        /* Slides */
+        .slides-wrapper {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 80px 0 0 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(26,26,26,0.95);
+            padding: 20px 40px;
+            border-radius: 100px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #00ff9d;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 79px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            z-index: 999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00ff9d;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(0,255,157,0.5);
+        }
+
+        /* Analytics indicator */
+        .analytics-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: #00ff9d;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: pulse 2s infinite;
+            z-index: 1001;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header-logo {
+                font-size: 24px;
+            }
+            
+            .user-info {
+                gap: 10px;
+                font-size: 12px;
+            }
+            
+            .nav-container {
+                padding: 15px 30px;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-container">
+            <div class="auth-logo">
+                <span class="nil">NIL</span><span>GAMEPLAN</span>
+            </div>
+            <div class="auth-subtitle">Secure Access Required</div>
+            <form id="authForm">
+                <input type="email" class="auth-input" placeholder="Email Address" id="email" required>
+                <input type="password" class="auth-input" placeholder="Password" id="password" required>
+                <button type="submit" class="auth-button" id="loginBtn">Access Presentation</button>
+                <div class="auth-loading" id="authLoading">Authenticating...</div>
+                <div class="auth-error" id="authError"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Presentation -->
+    <div class="presentation-container" id="presentationContainer">
+        <!-- Analytics indicator -->
+        <div class="analytics-indicator" title="Analytics Active"></div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">
+                <span class="nil">NIL</span><span>GAMEPLAN</span>
+            </div>
+            <div class="user-info">
+                <span id="userName">Loading...</span>
+                <span class="user-badge" id="userRole">user</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Slides -->
+        <div class="slides-wrapper">
+            <div class="slide active">
+                <img src="../slides/slide1_image1.png" alt="NIL GamePlan Title" class="slide-image">
+            </div>
+            <div class="slide">
+                <img src="../slides/slide2_image0.png" alt="Platform Overview" class="slide-image">
+            </div>
+            <div class="slide">
+                <img src="../slides/slide3_image1.jpg" alt="Vision" class="slide-image">
+            </div>
+            <div class="slide">
+                <img src="../slides/slide4_image2.png" alt="Market Size" class="slide-image">
+            </div>
+            <div class="slide">
+                <img src="../slides/slide5_image0.jpg" alt="Website" class="slide-image">
+            </div>
+            <!-- Add more slides as needed -->
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <button class="nav-button" id="prevBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">5</span>
+            </div>
+            <button class="nav-button" id="nextBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="auth-system.js"></script>
+    <script>
+        let currentSlide = 0;
+        let sessionStartTime = null;
+        let currentUser = null;
+
+        // Initialize presentation
+        async function initPresentation() {
+            try {
+                // Check if user is already authenticated
+                currentUser = await window.nilAuth.isAuthenticated();
+                if (currentUser) {
+                    await showPresentation();
+                }
+            } catch (error) {
+                console.error('Init error:', error);
+            }
+        }
+
+        // Authentication form handler
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const authLoading = document.getElementById('authLoading');
+            const authError = document.getElementById('authError');
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            authLoading.style.display = 'block';
+            authError.style.display = 'none';
+            
+            try {
+                const result = await window.nilAuth.authenticate(email, password);
+                
+                if (result.success) {
+                    currentUser = result.user;
+                    await showPresentation();
+                    
+                    // Track presentation access
+                    await window.nilAuth.trackEvent('presentation_access', {
+                        presentation_type: 'secure-presentation',
+                        user_role: result.profile?.role,
+                        access_time: new Date().toISOString()
+                    });
+                    
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                console.error('Authentication error:', error);
+                authError.textContent = error.message || 'Authentication failed';
+                authError.style.display = 'block';
+            } finally {
+                loginBtn.disabled = false;
+                authLoading.style.display = 'none';
+            }
+        });
+
+        // Show presentation after successful auth
+        async function showPresentation() {
+            try {
+                // Get user profile
+                const { data: profile } = await window.nilAuth.supabase
+                    .from('user_profiles')
+                    .select('name, role')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                // Update UI
+                document.getElementById('userName').textContent = profile?.name || currentUser.email;
+                document.getElementById('userRole').textContent = profile?.role || 'user';
+                
+                // Show presentation
+                document.getElementById('authOverlay').classList.add('hidden');
+                document.getElementById('presentationContainer').classList.add('active');
+                
+                // Initialize presentation
+                sessionStartTime = Date.now();
+                setupNavigation();
+                
+                // Track initial page view
+                await window.nilAuth.trackPageView();
+                
+            } catch (error) {
+                console.error('Show presentation error:', error);
+            }
+        }
+
+        // Setup slide navigation
+        function setupNavigation() {
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentSlideSpan = document.getElementById('currentSlide');
+            const totalSlidesSpan = document.getElementById('totalSlides');
+            const progressFill = document.getElementById('progressFill');
+
+            totalSlidesSpan.textContent = totalSlides;
+
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSlide);
+                });
+                
+                currentSlideSpan.textContent = currentSlide + 1;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+                
+                // Update progress bar
+                const progress = ((currentSlide + 1) / totalSlides) * 100;
+                progressFill.style.width = progress + '%';
+                
+                // Track slide change
+                if (currentUser) {
+                    window.nilAuth.trackInteraction('slide_change', {
+                        slide_number: currentSlide + 1,
+                        slide_progress: progress
+                    });
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!document.getElementById('presentationContainer').classList.contains('active')) return;
+                
+                if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                } else if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                } else if (e.key === 'Home') {
+                    currentSlide = 0;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    currentSlide = totalSlides - 1;
+                    updateSlide();
+                }
+            });
+
+            // Touch support
+            let touchStartX = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            document.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0 && currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        updateSlide();
+                    } else if (diff < 0 && currentSlide > 0) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                }
+            });
+
+            // Initial update
+            updateSlide();
+        }
+
+        // Logout function
+        async function logout() {
+            try {
+                // Track session end
+                if (sessionStartTime && currentUser) {
+                    const sessionDuration = Math.floor((Date.now() - sessionStartTime) / 1000);
+                    await window.nilAuth.trackEvent('session_end', {
+                        duration_seconds: sessionDuration,
+                        slides_viewed: currentSlide + 1,
+                        completion_percentage: ((currentSlide + 1) / document.querySelectorAll('.slide').length) * 100
+                    });
+                }
+                
+                await window.nilAuth.logout();
+                
+                // Reset UI
+                document.getElementById('authOverlay').classList.remove('hidden');
+                document.getElementById('presentationContainer').classList.remove('active');
+                document.getElementById('authForm').reset();
+                currentSlide = 0;
+                sessionStartTime = null;
+                currentUser = null;
+                
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        // Track page visibility changes
+        document.addEventListener('visibilitychange', async () => {
+            if (currentUser) {
+                if (document.hidden) {
+                    await window.nilAuth.trackEvent('page_blur', {
+                        slide_number: currentSlide + 1,
+                        timestamp: new Date().toISOString()
+                    });
+                } else {
+                    await window.nilAuth.trackEvent('page_focus', {
+                        slide_number: currentSlide + 1,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            }
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initPresentation);
+    </script>
+</body>
+</html>

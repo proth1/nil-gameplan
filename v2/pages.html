@@ -11,6 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         /* CSS Reset */
         *, *::before, *::after {
@@ -1859,7 +1863,7 @@
                 <span class="nil">NIL</span><span class="gameplan">GAMEPLAN</span>
             </div>
             <form id="authForm">
-                <input type="text" class="auth-input" placeholder="Username" id="username" required>
+                <input type="email" class="auth-input" placeholder="Email Address" id="username" required>
                 <input type="password" class="auth-input" placeholder="Password" id="password" required>
                 <button type="submit" class="auth-button">Access Presentation</button>
                 <div class="auth-error" id="authError">Invalid credentials. Please try again.</div>
@@ -2749,35 +2753,69 @@
         </div>
     </div>
 
+    <script src="auth-system.js"></script>
     <script>
-        // Authentication
-        const authForm = document.getElementById('authForm');
-        const authOverlay = document.getElementById('authOverlay');
-        const authError = document.getElementById('authError');
-        const appContainer = document.getElementById('appContainer');
+        // Production Authentication System
+        let currentUser = null;
 
-        // Check if already authenticated
-        if (sessionStorage.getItem('nilGameplanAuth') === 'true') {
-            authOverlay.classList.add('hidden');
-            appContainer.classList.add('active');
+        // Check authentication on load
+        async function checkAuth() {
+            currentUser = await window.nilAuth.isAuthenticated();
+            if (currentUser) {
+                document.getElementById('authOverlay').classList.add('hidden');
+                document.getElementById('appContainer').classList.add('active');
+                initializeApp();
+            }
         }
 
-        authForm.addEventListener('submit', (e) => {
+        // Authentication form handler
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const username = document.getElementById('username').value;
+            const loginBtn = e.target.querySelector('button[type="submit"]');
+            const authError = document.getElementById('authError');
+            
+            const email = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            if (username === 'MyNILGamePlan' && password === 'NIL2025!') {
-                sessionStorage.setItem('nilGameplanAuth', 'true');
-                authOverlay.classList.add('hidden');
-                appContainer.classList.add('active');
-                initializeApp();
-            } else {
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Authenticating...';
+            authError.classList.remove('show');
+            
+            try {
+                const result = await window.nilAuth.authenticate(email, password);
+                
+                if (result.success) {
+                    currentUser = result.user;
+                    document.getElementById('authOverlay').classList.add('hidden');
+                    document.getElementById('appContainer').classList.add('active');
+                    initializeApp();
+                    
+                    // Track presentation access
+                    await window.nilAuth.trackEvent('presentation_access', {
+                        presentation_type: 'pages-presentation',
+                        user_role: result.profile?.role,
+                        access_time: new Date().toISOString()
+                    });
+                    
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                console.error('Authentication error:', error);
+                authError.textContent = error.message || 'Authentication failed. Please check your credentials.';
                 authError.classList.add('show');
-                setTimeout(() => authError.classList.remove('show'), 3000);
+                setTimeout(() => authError.classList.remove('show'), 5000);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Access Presentation';
             }
         });
+
+        // Initialize authentication check
+        document.addEventListener('DOMContentLoaded', checkAuth);
 
         // Page Navigation
         let currentPage = 0;
@@ -2810,6 +2848,15 @@
             nextBtn.classList.toggle('disabled', pageIndex === totalPages - 1);
             
             currentPage = pageIndex;
+            
+            // Track page navigation for authenticated users
+            if (currentUser) {
+                window.nilAuth.trackInteraction('page_navigation', {
+                    page_number: pageIndex + 1,
+                    page_name: pages[pageIndex]?.getAttribute('data-page') || `page-${pageIndex + 1}`,
+                    navigation_method: 'navigation'
+                });
+            }
         }
 
         // Navigation event listeners
