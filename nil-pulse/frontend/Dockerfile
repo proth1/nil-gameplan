@@ -9,10 +9,10 @@ COPY package*.json ./
 
 # Install dependencies
 FROM base AS dependencies
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --only=production && npm cache clean --force
 
 FROM base AS development-dependencies
-RUN npm ci && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # Development stage
 FROM base AS development

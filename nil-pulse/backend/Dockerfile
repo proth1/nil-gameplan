@@ -24,10 +24,10 @@ COPY package*.json ./
 
 # Install dependencies
 FROM base AS dependencies
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --only=production && npm cache clean --force
 
 FROM base AS development-dependencies  
-RUN npm ci && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # Development stage
 FROM base AS development
@@ -52,8 +52,8 @@ RUN addgroup -g 1001 -S nodejs && \
 # Copy production dependencies
 COPY --from=dependencies /app/node_modules ./node_modules
 
-# Copy built application
-COPY --from=build --chown=nilpulse:nodejs /app/dist ./dist
+# Copy source code and package files
+COPY --from=build --chown=nilpulse:nodejs /app/src ./src
 COPY --from=build --chown=nilpulse:nodejs /app/package*.json ./
 
 # Create necessary directories

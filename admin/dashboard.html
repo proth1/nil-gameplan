@@ -294,13 +294,211 @@
             color: #ff6b35;
         }
 
-        @media (max-width: 768px) {
+        /* iOS Safari specific fixes */
+        body {
+            -webkit-text-size-adjust: 100%;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* Better touch targets for iOS */
+        .export-btn, .logout-btn, .refresh-btn, .action-btn {
+            min-height: 44px;
+            min-width: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Responsive breakpoints for iOS devices */
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+            
             .content-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 15px 0;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
             }
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-value {
+                font-size: 28px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .date-input, .refresh-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 10px 0;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            /* Make table horizontally scrollable on small screens */
+            .user-table {
+                font-size: 12px;
+            }
+            
+            .user-table th,
+            .user-table td {
+                padding: 8px 4px;
+                white-space: nowrap;
+            }
+            
+            .user-actions {
+                flex-direction: column;
+                gap: 2px;
+            }
+            
+            .action-btn {
+                font-size: 10px;
+                padding: 6px 8px;
+            }
+            
+            .status-badge, .role-badge {
+                font-size: 9px;
+                padding: 2px 6px;
+            }
+        }
+
+        /* iPhone SE and similar small screens */
+        @media (max-width: 375px) {
+            .dashboard-container {
+                padding: 8px;
+            }
+            
+            .card-title {
+                font-size: 16px;
+            }
+            
+            .export-btn {
+                font-size: 10px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* iPad specific adjustments */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .content-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Landscape orientation fixes for phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header {
+                padding: 8px 0;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+        }
+
+        /* Touch-friendly modal for mobile */
+        #createUserModal {
+            padding: 20px;
+        }
+        
+        #createUserModal > div {
+            max-width: 100%;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 480px) {
+            #createUserModal > div {
+                padding: 20px;
+            }
+            
+            #createUserModal input,
+            #createUserModal select {
+                font-size: 16px; /* Prevents zoom on iOS */
             }
         }
     </style>
@@ -516,11 +714,15 @@
             }
         }
 
-        // Load users list
+        // Load users list with analytics
         async function loadUsers() {
             try {
                 const result = await window.nilAuth.getUserList();
                 if (!result.success) throw new Error(result.error);
+
+                // Get user analytics
+                const analyticsResult = await window.nilAuth.getAnalytics();
+                const userActivity = analyticsResult.success ? analyticsResult.analytics.userActivity : {};
 
                 const tbody = document.getElementById('userTableBody');
                 tbody.innerHTML = '';
@@ -530,6 +732,10 @@
                 result.users.forEach(user => {
                     if (user.is_active) activeCount++;
 
+                    const activity = userActivity[user.id] || { totalEvents: 0, lastSeen: null };
+                    const accessCount = activity.totalEvents || 0;
+                    const lastAccess = activity.lastSeen ? new Date(activity.lastSeen).toLocaleDateString() : 'Never';
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${user.name}</td>
@@ -537,7 +743,7 @@
                         <td><span class="role-badge">${user.role}</span></td>
                         <td><span class="status-badge ${user.is_active ? 'status-active' : 'status-inactive'}">${user.is_active ? 'Active' : 'Inactive'}</span></td>
                         <td>${user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never'}</td>
-                        <td>-</td>
+                        <td><strong>${accessCount}</strong> events</td>
                         <td class="user-actions">
                             <button class="action-btn" onclick="toggleUserStatus('${user.id}', ${!user.is_active})">${user.is_active ? 'Disable' : 'Enable'}</button>
                             <button class="action-btn" onclick="viewUserDetails('${user.id}')">Details</button>
