@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GamePlan - Manual Setup</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 40px;
+        }
+
+        .logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .step {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .step-number {
+            background: #00ff9d;
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            margin-right: 15px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .highlight {
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ff9d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .success {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: #00ff9d;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #00ff9d;
+            color: #000;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            background: #00cc7a;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <span class="nil">NIL</span><span>GAMEPLAN</span> Manual Setup
+    </div>
+
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">1</span>
+            Run Database Schema
+        </div>
+        <p>Copy and run this SQL in your Supabase SQL Editor:</p>
+        <div class="code-block">-- NIL GamePlan Database Schema (Simplified)
+-- Run this in your Supabase SQL editor
+
+-- Create user profiles table
+CREATE TABLE IF NOT EXISTS user_profiles (
+    id UUID REFERENCES auth.users(id) PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('admin', 'investor', 'partner', 'board', 'advisor', 'demo')),
+    access_level TEXT DEFAULT 'standard' CHECK (access_level IN ('standard', 'premium', 'enterprise')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    last_login TIMESTAMP WITH TIME ZONE,
+    is_active BOOLEAN DEFAULT true,
+    metadata JSONB DEFAULT '{}'::jsonb
+);
+
+-- Create analytics events table
+CREATE TABLE IF NOT EXISTS analytics_events (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
+    session_id TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    event_data JSONB DEFAULT '{}'::jsonb,
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    page_url TEXT,
+    referrer TEXT,
+    user_agent TEXT,
+    ip_address INET,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create user sessions table
+CREATE TABLE IF NOT EXISTS user_sessions (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
+    session_id TEXT UNIQUE NOT NULL,
+    started_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    ended_at TIMESTAMP WITH TIME ZONE,
+    duration_seconds INTEGER,
+    pages_visited INTEGER DEFAULT 0,
+    interactions_count INTEGER DEFAULT 0,
+    ip_address INET,
+    user_agent TEXT,
+    is_active BOOLEAN DEFAULT true
+);
+
+-- Create presentation access logs
+CREATE TABLE IF NOT EXISTS presentation_access (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
+    presentation_type TEXT NOT NULL,
+    accessed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    duration_seconds INTEGER,
+    slides_viewed INTEGER DEFAULT 0,
+    completion_percentage DECIMAL(5,2) DEFAULT 0.00,
+    device_type TEXT,
+    browser TEXT,
+    ip_address INET
+);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE presentation_access ENABLE ROW LEVEL SECURITY;</div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">2</span>
+            Create Admin User in Supabase Dashboard
+        </div>
+        <p>Since programmatic user creation requires additional setup, let's create your admin user directly in Supabase:</p>
+        <ol>
+            <li>Go to your Supabase dashboard → <strong>Authentication</strong></li>
+            <li>Click <strong>"Add user"</strong> button</li>
+            <li>Enter your email: <span class="highlight">proth1@gmail.com</span></li>
+            <li>Enter a password (save this!)</li>
+            <li>Check <strong>"Auto Confirm User"</strong></li>
+            <li>Click <strong>"Create user"</strong></li>
+        </ol>
+        
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Save your password! You'll need it to login.
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">3</span>
+            Add User Profile via SQL
+        </div>
+        <p>After creating the user, run this SQL to add their profile (replace the UUID with the actual user ID from step 2):</p>
+        
+        <ol>
+            <li>In Authentication → Users, copy the <strong>User UID</strong> of the user you just created</li>
+            <li>Go to SQL Editor and run this (replace <code>YOUR_USER_ID_HERE</code> with the actual UUID):</li>
+        </ol>
+
+        <div class="code-block">INSERT INTO user_profiles (id, email, name, role, access_level, is_active)
+VALUES (
+    'YOUR_USER_ID_HERE',  -- Replace with actual UUID from Authentication page
+    'proth1@gmail.com',
+    'Paul Roth',
+    'admin',
+    'enterprise',
+    true
+);</div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">4</span>
+            Test the System
+        </div>
+        <p>Now you can test everything:</p>
+        
+        <a href="https://proth1.github.io/nil-gameplan/v2/pages.html" class="btn" target="_blank">
+            🎯 Test Main Presentation
+        </a>
+        
+        <a href="https://proth1.github.io/nil-gameplan/admin/dashboard.html" class="btn" target="_blank">
+            📊 Test Admin Dashboard
+        </a>
+        
+        <div class="success">
+            <strong>✅ Login with:</strong><br>
+            Email: proth1@gmail.com<br>
+            Password: [the password you set in step 2]
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">5</span>
+            Create Additional Users (Optional)
+        </div>
+        <p>To create more users for testing, repeat steps 2-3 with different emails and roles:</p>
+        
+        <div class="code-block">-- Example: Create an investor user
+INSERT INTO user_profiles (id, email, name, role, access_level, is_active)
+VALUES (
+    'INVESTOR_USER_ID_HERE',
+    'investor@example.com',
+    'John Investor',
+    'investor',
+    'standard',
+    true
+);
+
+-- Example: Create a demo user  
+INSERT INTO user_profiles (id, email, name, role, access_level, is_active)
+VALUES (
+    'DEMO_USER_ID_HERE',
+    'demo@example.com',
+    'Demo User',
+    'demo',
+    'standard',
+    true
+);</div>
+    </div>
+
+    <div class="warning">
+        <strong>💡 Pro Tip:</strong> Once your admin user is working, you can use the admin dashboard to create additional users more easily!
+    </div>
+</body>
+</html>

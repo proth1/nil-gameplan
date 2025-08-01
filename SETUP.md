@@ -41,17 +41,23 @@ In your Supabase dashboard:
 
 ### 4. Create Admin User
 
-In the Supabase dashboard SQL Editor:
+**Method 1: Via Supabase Dashboard (Recommended)**
+1. Go to your Supabase dashboard → Authentication → Users
+2. Click "Add user"
+3. Enter email and password
+4. Check "Auto Confirm User"
+5. Click "Create user"
+6. Copy the User UID
+7. In SQL Editor, run:
 
 ```sql
--- Create admin user through Supabase Auth
--- Then add profile
-INSERT INTO user_profiles (id, email, name, role, is_active)
+INSERT INTO user_profiles (id, email, name, role, access_level, is_active)
 VALUES (
-    'your-admin-user-id', -- Get this from auth.users table
-    'admin@nilgameplan.com',
-    'NIL GamePlan Admin',
+    'YOUR_USER_ID_HERE',  -- Replace with actual UUID from Authentication page
+    'your-email@example.com',
+    'Your Name',
     'admin',
+    'enterprise',
     true
 );
 ```
