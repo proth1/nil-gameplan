@@ -4,8 +4,8 @@
 class NILGamePlanAuth {
     constructor() {
         // Supabase configuration - replace with your actual project details
-        this.supabaseUrl = 'https://your-project-id.supabase.co';
-        this.supabaseKey = 'your-anon-key'; // This would be in environment variables in production
+        this.supabaseUrl = 'https://nuownnbrzjbuadnnpwyb.supabase.co';
+        this.supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51b3dubmJyempidWFkbm5wd3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwMTkxMTcsImV4cCI6MjA2OTU5NTExN30.ZG-zA4ahUJZFlW_tR0RIWtE0Z2rPT4uTeV5LVwsAB80';
         
         // Initialize Supabase client (will be loaded from CDN)
         this.supabase = null;

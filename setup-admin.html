@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIL GamePlan - Setup Admin User</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .setup-container {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .logo .nil {
+            color: #00ff9d;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00ff9d;
+        }
+
+        .setup-btn {
+            width: 100%;
+            padding: 15px;
+            background: #00ff9d;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .setup-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: #00ff9d;
+        }
+
+        .error {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: #ff6b35;
+        }
+
+        .instructions {
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            color: #007bff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="logo">
+            <span class="nil">NIL</span><span>GAMEPLAN</span> Setup
+        </div>
+
+        <div class="instructions">
+            <strong>⚠️ Important:</strong> Before creating your admin user, make sure you've run the database schema in your Supabase SQL Editor. 
+            <br><br>
+            1. Go to your Supabase dashboard → SQL Editor
+            <br>
+            2. Copy the contents of <code>database/schema.sql</code> from the repo
+            <br>
+            3. Paste and run it in the SQL Editor
+            <br>
+            4. Then return here to create your admin user
+        </div>
+
+        <form id="setupForm">
+            <div class="form-group">
+                <label for="name">Admin Name</label>
+                <input type="text" id="name" required placeholder="Your Full Name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Admin Email</label>
+                <input type="email" id="email" required placeholder="admin@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="Strong password (min 8 characters)" minlength="8">
+            </div>
+
+            <button type="submit" class="setup-btn" id="setupBtn">Create Admin User</button>
+        </form>
+
+        <div class="message success" id="successMessage"></div>
+        <div class="message error" id="errorMessage"></div>
+    </div>
+
+    <script src="v2/auth-system.js"></script>
+    <script>
+        document.getElementById('setupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const setupBtn = document.getElementById('setupBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            setupBtn.disabled = true;
+            setupBtn.textContent = 'Creating Admin User...';
+            
+            try {
+                // Wait for auth system to initialize
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Create admin user
+                const result = await window.nilAuth.createUser({
+                    name: name,
+                    email: email,
+                    password: password,
+                    role: 'admin',
+                    accessLevel: 'enterprise'
+                });
+                
+                if (result.success) {
+                    successMessage.innerHTML = `
+                        <strong>✅ Admin user created successfully!</strong><br><br>
+                        <strong>Email:</strong> ${email}<br>
+                        <strong>Password:</strong> ${password}<br><br>
+                        You can now access:<br>
+                        • <a href="v2/pages.html" style="color: #00ff9d;">Main Presentation</a><br>
+                        • <a href="admin/dashboard.html" style="color: #00ff9d;">Admin Dashboard</a><br><br>
+                        <strong>⚠️ Save these credentials safely!</strong>
+                    `;
+                    successMessage.style.display = 'block';
+                    
+                    // Clear form
+                    document.getElementById('setupForm').reset();
+                    
+                } else {
+                    throw new Error(result.error || 'Failed to create admin user');
+                }
+                
+            } catch (error) {
+                console.error('Setup error:', error);
+                errorMessage.innerHTML = `
+                    <strong>❌ Setup failed:</strong><br>
+                    ${error.message}<br><br>
+                    <strong>Common issues:</strong><br>
+                    • Database schema not yet installed<br>
+                    • Email already exists<br>
+                    • Network connection issues
+                `;
+                errorMessage.style.display = 'block';
+            } finally {
+                setupBtn.disabled = false;
+                setupBtn.textContent = 'Create Admin User';
+            }
+        });
+    </script>
+</body>
+</html>
